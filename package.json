@@ -1,0 +1,88 @@
+{
+  "name": "@hamsa-ai/hamsa-avatars-sdk",
+  "version": "0.0.0",
+  "private": false,
+  "description": "Hamsa AI - Avatars Javascript SDK",
+  "keywords": [
+    "arab",
+    "voice",
+    "agent",
+    "web",
+    "nodejs",
+    "sdk",
+    "hamsa",
+    "ai",
+    "avatars"
+  ],
+  "homepage": "https://github.com/hamsa-ai/hamsa-avatars-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/hamsa-ai/hamsa-avatars-sdk/issues"
+  },
+  "license": "MIT",
+  "author": "Hamsa AI Inc.",
+  "files": [
+    "dist",
+    "!dist/**/*.test.*"
+  ],
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamsa-ai/hamsa-avatars-sdk.git"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "rollup -c -w",
+    "check": "npm run check:format -- --list-different && npm run check:lint",
+    "check:format": "prettier --ignore-path .gitignore --log-level error .",
+    "check:lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx --no-error-on-unmatched-pattern .",
+    "clean": "rimraf coverage dist docs",
+    "commit": "npm run fix && git commit -am \"chore: Generated release files\"",
+    "deploy": "exit 0",
+    "dist": "npm run clean && npm run build && attw --pack . --ignore-rules cjs-resolves-to-esm",
+    "docs": "npm run docs:build",
+    "docs:build": "typedoc src/index.ts",
+    "fix": "npm run fix:format && npm run fix:lint",
+    "fix:format": "npm run check:format -- --write",
+    "fix:lint": "npm run check:lint -- --fix --quiet",
+    "postversion": "git push origin && git push origin --tags && npm publish --access public && git reset --hard",
+    "preversion": "git checkout main && git pull && npm install && npm run test && npm run dist",
+    "release:major": "generate-changelog -M -x \"chore,test\" && npm run docs && npm run commit && npm version major",
+    "release:minor": "generate-changelog -m -x \"chore,test\" && npm run docs && npm run commit && npm version minor",
+    "release:patch": "generate-changelog -p -x \"chore,test\" && npm run docs && npm run commit && npm version patch",
+    "release:revert": "npm unpublish hamsa-avatars-sdk",
+    "test": "npm run test:types && npm run test:unit:coverage",
+    "test:types": "tsc --noEmit",
+    "test:unit": "vitest run --passWithNoTests",
+    "test:unit:coverage": "npm run test:unit -- --coverage.enabled"
+  },
+  "dependencies": {
+    "@hamsa-ai/voice-agents-sdk": "^0.1.1",
+    "loglevel": "^1.9.2"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.15.4",
+    "@evilmartians/lefthook": "^1.7.14",
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@tstv/eslint-config": "^3.2.2",
+    "@tstv/tsconfig-common": "^3.6.0",
+    "@types/node": "^22.5.1",
+    "@vitest/coverage-v8": "^2.0.5",
+    "eslint": "^8.57.0",
+    "generate-changelog": "^1.8.0",
+    "jsdom": "^25.0.1",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.23.0",
+    "tslib": "^2.7.0",
+    "typedoc": "^0.26.6",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.1",
+    "cross-env": "^7.0.3"
+  }
+}
