@@ -1,3 +1,9 @@
+#### 0.1.1 (2024-10-13)
+
+##### Build System / Dependencies
+
+*  fix output file ([a816613d](https://github.com/hamsa-ai/avatars-sdk/commit/a816613d7d490aa428d53563635979cb39209c2c))
+
 ### 0.1.0 (2024-10-13)
 
 ##### Build System / Dependencies
