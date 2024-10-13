@@ -9,10 +9,10 @@
       http-equiv="x-ua-compatible"
       content="IE=edge"
     />
-    <title>@hamsa-ai/hamsa-avatars-sdk</title>
+    <title>@hamsa-ai/avatars-sdk</title>
     <meta
       name="description"
-      content="Documentation for @hamsa-ai/hamsa-avatars-sdk"
+      content="Documentation for @hamsa-ai/avatars-sdk"
     />
     <meta
       name="viewport"
@@ -84,7 +84,7 @@
           <a
             href="index.html"
             class="title"
-            >@hamsa-ai/hamsa-avatars-sdk</a
+            >@hamsa-ai/avatars-sdk</a
           >
         </div>
         <div
@@ -109,7 +109,7 @@
     </header>
     <div class="container container-main">
       <div class="col-content">
-        <div class="tsd-page-title"><h2>@hamsa-ai/hamsa-avatars-sdk</h2></div>
+        <div class="tsd-page-title"><h2>@hamsa-ai/avatars-sdk</h2></div>
         <div class="tsd-panel tsd-typography">
           <a
             id="md:hamsa-avatars-sdk"
@@ -126,7 +126,7 @@
           <p>
             The <strong>Hamsa Avatars SDK</strong> is a TypeScript library that provides an easy way to integrate avatar
             video playback with Hamsa Voice Agents in your web applications. It manages the synchronization between the
-            avatar video and the voice agent's state, providing a seamless and interactive user experience.
+            avatar video and the voice agent’s state, providing a seamless and interactive user experience.
           </p>
           <a
             id="md:table-of-contents"
@@ -148,6 +148,7 @@
               <ul>
                 <li><a href="#md:initialization">Initialization</a></li>
                 <li><a href="#md:methods">Methods</a></li>
+                <li><a href="#md:events">Events</a></li>
                 <li>
                   <a href="#md:code-examples">Code Examples</a>
                   <ul>
@@ -180,22 +181,28 @@
           <ul>
             <li>
               <strong>Avatar Video Management</strong>: Handles video playback, looping specific sections based on the
-              voice agent's state.
+              voice agent’s state.
             </li>
             <li>
               <strong>Voice Agent Integration</strong>: Seamlessly integrates with the Hamsa Voice Agents Web SDK.
             </li>
             <li>
-              <strong>Event Handling</strong>: Responds to voice agent events to update video playback accordingly.
+              <strong>Event Handling</strong>: Emits events to respond to voice agent states and update video playback
+              accordingly.
             </li>
             <li>
-              <strong>State Management</strong>: Keeps track of the current agent status and video playback state.
+              <strong>State Management</strong>: Utilizes a finite state machine to keep track of the current agent
+              status and video playback state.
             </li>
             <li><strong>Logging</strong>: Provides detailed logging for easier debugging and monitoring.</li>
             <li><strong>TypeScript Support</strong>: Fully typed for better development experience and reliability.</li>
             <li>
               <strong>Singleton Pattern</strong>: Ensures only one instance of the manager runs, preventing conflicts in
               multi-component environments.
+            </li>
+            <li>
+              <strong>Reset Singleton Instance</strong>: Allows resetting the Singleton instance for scenarios like
+              testing or re-initialization.
             </li>
             <li>
               <strong>Framework-Agnostic</strong>: Easily integrates with major JavaScript frontend frameworks and
@@ -215,11 +222,11 @@
             ></a>
           </h2>
           <p>Install the SDK via yarn:</p>
-          <pre><code class="bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">@hamsa-ai/hamsa-avatars-sdk</span>
+          <pre><code class="bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">@hamsa-ai/avatars-sdk</span>
 </code><button type="button">Copy</button></pre>
 
           <p>Or via npm:</p>
-          <pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">@hamsa-ai/hamsa-avatars-sdk</span>
+          <pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">@hamsa-ai/avatars-sdk</span>
 </code><button type="button">Copy</button></pre>
 
           <a
@@ -247,11 +254,14 @@
             ></a>
           </h3>
           <p>First, import the <code>AvatarVideoManager</code> from the SDK:</p>
-          <pre><code class="typescript"><span class="hl-3">import</span><span class="hl-1"> {</span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">} </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@hamsa-ai/hamsa-avatars-sdk&#39;</span><span class="hl-1">;</span>
+          <pre><code class="typescript"><span class="hl-3">import</span><span class="hl-1"> {</span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">} </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@hamsa-ai/avatars-sdk&#39;</span><span class="hl-1">;</span>
 </code><button type="button">Copy</button></pre>
 
-          <p>Create a singleton instance of <code>AvatarVideoManager</code> with the required options:</p>
-          <pre><code class="typescript"><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">avatarVideoManager</span><span class="hl-1"> = </span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">getInstance</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">apiKey:</span><span class="hl-1"> </span><span class="hl-2">&#39;your-api-key&#39;</span><span class="hl-1">, </span><span class="hl-7">// Your Hamsa API key</span><br/><span class="hl-1">  </span><span class="hl-4">debugEnabled:</span><span class="hl-1"> </span><span class="hl-5">true</span><span class="hl-1">, </span><span class="hl-7">// Enable debug logging</span><br/><span class="hl-1">  </span><span class="hl-4">logLevel:</span><span class="hl-1"> </span><span class="hl-2">&#39;trace&#39;</span><span class="hl-1">, </span><span class="hl-7">// Log level (&#39;trace&#39;, &#39;debug&#39;, &#39;info&#39;, &#39;warn&#39;, &#39;error&#39;, &#39;silent&#39;)</span><br/><span class="hl-1">});</span>
+          <p>
+            Create a singleton instance of <code>AvatarVideoManager</code> with the required options and initialize it
+            with your parameters and optional event callbacks:
+          </p>
+          <pre><code class="typescript"><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">avatarVideoManager</span><span class="hl-1"> = </span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">getInstance</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">apiKey:</span><span class="hl-1"> </span><span class="hl-2">&#39;your-api-key&#39;</span><span class="hl-1">, </span><span class="hl-7">// Your Hamsa API key</span><br/><span class="hl-1">  </span><span class="hl-4">debugEnabled:</span><span class="hl-1"> </span><span class="hl-5">true</span><span class="hl-1">, </span><span class="hl-7">// Enable debug logging</span><br/><span class="hl-1">  </span><span class="hl-4">logLevel:</span><span class="hl-1"> </span><span class="hl-2">&#39;trace&#39;</span><span class="hl-1">, </span><span class="hl-7">// Log level (&#39;trace&#39;, &#39;debug&#39;, &#39;info&#39;, &#39;warn&#39;, &#39;error&#39;, &#39;silent&#39;)</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-7">// Define event callbacks (optional)</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">callbacks</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-0">onLoadingChange</span><span class="hl-4">:</span><span class="hl-1"> (</span><span class="hl-4">isLoading</span><span class="hl-1">: </span><span class="hl-8">boolean</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-4">isLoading</span><span class="hl-1">) {</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Loading avatar and voice agent...&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">      </span><span class="hl-7">// Show loading spinner or indicator</span><br/><span class="hl-1">    } </span><span class="hl-3">else</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Avatar and voice agent are ready.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">      </span><span class="hl-7">// Hide loading spinner or indicator</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">  </span><span class="hl-0">onError</span><span class="hl-4">:</span><span class="hl-1"> (</span><span class="hl-4">error</span><span class="hl-1">: </span><span class="hl-8">Error</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-2">&#39;An error occurred:&#39;</span><span class="hl-1">, </span><span class="hl-4">error</span><span class="hl-1">.</span><span class="hl-4">message</span><span class="hl-1">);</span><br/><span class="hl-1">    </span><span class="hl-7">// Display error message to the user</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">  </span><span class="hl-0">onAgentStart</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Voice agent has started.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">    </span><span class="hl-7">// Additional logic when the agent starts</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">  </span><span class="hl-0">onAgentEnd</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Voice agent has ended.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">    </span><span class="hl-7">// Additional logic when the agent ends</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-7">// Initialize the `AvatarVideoManager`</span><br/><span class="hl-4">avatarVideoManager</span><br/><span class="hl-1">  .</span><span class="hl-0">initialize</span><span class="hl-1">(</span><br/><span class="hl-1">    {</span><br/><span class="hl-1">      </span><span class="hl-4">containerId:</span><span class="hl-1"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-1">, </span><span class="hl-7">// The ID of the HTML element to host the video</span><br/><span class="hl-1">      </span><span class="hl-4">avatarName:</span><span class="hl-1"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-1">, </span><span class="hl-7">// The name of the avatar configuration to use</span><br/><span class="hl-1">      </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-2">&#39;your-avatar-id&#39;</span><span class="hl-1">, </span><span class="hl-7">// The ID of the avatar agent</span><br/><span class="hl-1">      </span><span class="hl-4">params:</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">user_name:</span><span class="hl-1"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-1">, </span><span class="hl-7">// Parameters to pass to the voice agent</span><br/><span class="hl-1">        </span><span class="hl-4">position:</span><span class="hl-1"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">    </span><span class="hl-4">callbacks</span><br/><span class="hl-1">  )</span><br/><span class="hl-1">  .</span><span class="hl-0">then</span><span class="hl-1">(() </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Initialization successful.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">  })</span><br/><span class="hl-1">  .</span><span class="hl-0">catch</span><span class="hl-1">(</span><span class="hl-4">error</span><span class="hl-1"> </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-2">&#39;Initialization failed:&#39;</span><span class="hl-1">, </span><span class="hl-4">error</span><span class="hl-1">.</span><span class="hl-4">message</span><span class="hl-1">);</span><br/><span class="hl-1">  });</span>
 </code><button type="button">Copy</button></pre>
 
           <a
@@ -267,23 +277,26 @@
             ></a>
           </h3>
           <a
-            id="md:startcallparams-avatarvideomanagerstartcalloptions-promise"
+            id="md:initializeparams-avatarvideomanagerstartcalloptions-callbacks-partial-promise"
             class="tsd-anchor"
           ></a>
           <h4 class="tsd-anchor-link">
-            <code>startCall(params: AvatarVideoManagerStartCallOptions): Promise&lt;void&gt;</code
+            <code
+              >initialize(params: AvatarVideoManagerStartCallOptions, callbacks?:
+              Partial&lt;AvatarVideoManagerEvents&gt;): Promise&lt;void&gt;</code
             ><a
-              href="#md:startcallparams-avatarvideomanagerstartcalloptions-promise"
+              href="#md:initializeparams-avatarvideomanagerstartcalloptions-callbacks-partial-promise"
               aria-label="Permalink"
               class="tsd-anchor-icon"
               ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
             ></a>
           </h4>
           <p>
-            Starts the avatar video manager and agent call. Initializes video playback, subscribes to events, and starts
-            the voice agent after the specified delay.
+            Initializes the avatar video manager and starts the agent call. It sets up video playback, subscribes to
+            events, and starts the voice agent. Optional callbacks can be provided to handle events such as loading
+            changes, errors, agent start, and agent end.
           </p>
-          <pre><code class="typescript"><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">startCall</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">containerId:</span><span class="hl-1"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-1">, </span><span class="hl-7">// The ID of the HTML element to host the video</span><br/><span class="hl-1">  </span><span class="hl-4">avatarName:</span><span class="hl-1"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-1">, </span><span class="hl-7">// The name of the avatar configuration to use</span><br/><span class="hl-1">  </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-2">&#39;your-avatar-id&#39;</span><span class="hl-1">, </span><span class="hl-7">// The ID of the avatar agent</span><br/><span class="hl-1">  </span><span class="hl-4">params:</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">user_name:</span><span class="hl-1"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-1">, </span><span class="hl-7">// Parameters to pass to the voice agent</span><br/><span class="hl-1">    </span><span class="hl-4">position:</span><span class="hl-1"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">  </span><span class="hl-0">onAgentStart</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Agent has started.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">});</span>
+          <pre><code class="typescript"><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">initialize</span><span class="hl-1">(</span><br/><span class="hl-1">  {</span><br/><span class="hl-1">    </span><span class="hl-4">containerId:</span><span class="hl-1"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">avatarName:</span><span class="hl-1"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-2">&#39;your-avatar-id&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">params:</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">user_name:</span><span class="hl-1"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">position:</span><span class="hl-1"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">  {</span><br/><span class="hl-1">    </span><span class="hl-0">onLoadingChange</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">isLoading</span><span class="hl-1"> </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-7">/* Handle loading state */</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">    </span><span class="hl-0">onError</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">error</span><span class="hl-1"> </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-7">/* Handle errors */</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">    </span><span class="hl-0">onAgentStart</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-7">/* Handle agent start */</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">    </span><span class="hl-0">onAgentEnd</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-7">/* Handle agent end */</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">);</span>
 </code><button type="button">Copy</button></pre>
 
           <a
@@ -351,229 +364,175 @@
             ></a>
           </h4>
           <p>Sets the volume of the voice agent.</p>
-          <pre><code class="typescript"><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">setVolume</span><span class="hl-1">(</span><span class="hl-8">0.5</span><span class="hl-1">); </span><span class="hl-7">// Volume range from 0 to 1</span>
+          <pre><code class="typescript"><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">setVolume</span><span class="hl-1">(</span><span class="hl-9">0.5</span><span class="hl-1">); </span><span class="hl-7">// Volume range from 0 to 1</span>
 </code><button type="button">Copy</button></pre>
 
           <a
-            id="md:code-examples"
+            id="md:resetinstance-promise"
+            class="tsd-anchor"
+          ></a>
+          <h4 class="tsd-anchor-link">
+            <code>resetInstance(): Promise&lt;void&gt;</code
+            ><a
+              href="#md:resetinstance-promise"
+              aria-label="Permalink"
+              class="tsd-anchor-icon"
+              ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
+            ></a>
+          </h4>
+          <p>
+            Resets the Singleton instance of <code>AvatarVideoManager</code>. This is useful for scenarios like testing
+            or when you need to re-initialize the SDK with different configurations.
+          </p>
+          <pre><code class="typescript"><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">resetInstance</span><span class="hl-1">();</span>
+</code><button type="button">Copy</button></pre>
+
+          <a
+            id="md:events"
             class="tsd-anchor"
           ></a>
           <h3 class="tsd-anchor-link">
-            Code Examples<a
-              href="#md:code-examples"
+            Events<a
+              href="#md:events"
               aria-label="Permalink"
               class="tsd-anchor-icon"
               ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
             ></a>
           </h3>
           <p>
-            Below are code examples demonstrating how to integrate the <code>AvatarVideoManager</code> singleton into
-            various JavaScript frontend frameworks and Vanilla JavaScript.
+            The <code>AvatarVideoManager</code> emits several events to help developers respond to different states and
+            actions within the SDK.
           </p>
+          <ul>
+            <li>
+              <strong><code>onLoadingChange</code></strong
+              >: Emitted when the loading state changes.
+              <ul>
+                <li>
+                  Payload: boolean indicating if loading is in progress (<code>true</code>) or has completed
+                  (<code>false</code>).
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <pre><code class="typescript"><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">on</span><span class="hl-1">(</span><span class="hl-2">&#39;onLoadingChange&#39;</span><span class="hl-1">, </span><span class="hl-4">isLoading</span><span class="hl-1"> </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-4">isLoading</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-7">// Show loading indicator</span><br/><span class="hl-1">  } </span><span class="hl-3">else</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-7">// Hide loading indicator</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">});</span>
+</code><button type="button">Copy</button></pre>
+
+          <ul>
+            <li>
+              <strong><code>onError</code></strong
+              >: Emitted when an error occurs.
+              <ul>
+                <li>Payload: <code>Error</code> object containing error details.</li>
+              </ul>
+            </li>
+          </ul>
+          <pre><code class="typescript"><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">on</span><span class="hl-1">(</span><span class="hl-2">&#39;onError&#39;</span><span class="hl-1">, </span><span class="hl-4">error</span><span class="hl-1"> </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-2">&#39;An error occurred:&#39;</span><span class="hl-1">, </span><span class="hl-4">error</span><span class="hl-1">.</span><span class="hl-4">message</span><span class="hl-1">);</span><br/><span class="hl-1">  </span><span class="hl-7">// Handle error (e.g., display message to user)</span><br/><span class="hl-1">});</span>
+</code><button type="button">Copy</button></pre>
+
+          <ul>
+            <li>
+              <strong><code>onAgentStart</code></strong
+              >: Emitted when the voice agent starts.
+            </li>
+          </ul>
+          <pre><code class="typescript"><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">on</span><span class="hl-1">(</span><span class="hl-2">&#39;onAgentStart&#39;</span><span class="hl-1">, () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Voice agent has started.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">  </span><span class="hl-7">// Additional logic when the agent starts</span><br/><span class="hl-1">});</span>
+</code><button type="button">Copy</button></pre>
+
+          <ul>
+            <li>
+              <strong><code>onAgentEnd</code></strong
+              >: Emitted when the voice agent ends.
+            </li>
+          </ul>
+          <pre><code class="typescript"><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">on</span><span class="hl-1">(</span><span class="hl-2">&#39;onAgentEnd&#39;</span><span class="hl-1">, () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Voice agent has ended.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">  </span><span class="hl-7">// Additional logic when the agent ends</span><br/><span class="hl-1">});</span>
+</code><button type="button">Copy</button></pre>
+
+          <a
+            id="md:code-examples"
+            class="tsd-anchor"
+          ></a>
+          <h2 class="tsd-anchor-link">
+            Code Examples<a
+              href="#md:code-examples"
+              aria-label="Permalink"
+              class="tsd-anchor-icon"
+              ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
+            ></a>
+          </h2>
           <a
             id="md:react"
             class="tsd-anchor"
           ></a>
-          <h4 class="tsd-anchor-link">
+          <h3 class="tsd-anchor-link">
             React<a
               href="#md:react"
               aria-label="Permalink"
               class="tsd-anchor-icon"
               ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
             ></a>
-          </h4>
-          <pre><code class="typescript"><span class="hl-7">// LiveDemoPage.tsx</span><br/><br/><span class="hl-3">import</span><span class="hl-1"> </span><span class="hl-4">React</span><span class="hl-1">, { </span><span class="hl-4">useEffect</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;react&quot;</span><span class="hl-1">;</span><br/><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">AvatarVideoManager</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@hamsa-ai/hamsa-avatars-sdk&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-7">// API Key for Hamsa Voice Agent</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">apiKey</span><span class="hl-1"> = </span><span class="hl-4">process</span><span class="hl-1">.</span><span class="hl-4">env</span><span class="hl-1">.</span><span class="hl-6">REACT_APP_HAMSA_API_KEY</span><span class="hl-1"> </span><span class="hl-3">as</span><span class="hl-1"> </span><span class="hl-9">string</span><span class="hl-1">;</span><br/><br/><span class="hl-7">// Singleton options (static configuration)</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">options</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-4">apiKey</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">debugEnabled:</span><span class="hl-1"> </span><span class="hl-5">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">logLevel:</span><span class="hl-1"> </span><span class="hl-2">&quot;trace&quot;</span><span class="hl-1"> </span><span class="hl-3">as</span><span class="hl-1"> </span><span class="hl-9">log</span><span class="hl-1">.</span><span class="hl-9">LogLevelDesc</span><span class="hl-1">,</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-7">// Get the singleton instance outside the component</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">avatarVideoManager</span><span class="hl-1"> = </span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">getInstance</span><span class="hl-1">(</span><span class="hl-4">options</span><span class="hl-1">);</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-0">LiveDemoPage</span><span class="hl-1">: </span><span class="hl-9">React</span><span class="hl-1">.</span><span class="hl-9">FC</span><span class="hl-1"> = () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-0">useEffect</span><span class="hl-1">(() </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-7">// Define your avatar and user data</span><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">selectedAvatar</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-2">&#39;avatar-123&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">user</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">jobRole:</span><span class="hl-1"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-7">// Callback when the agent starts</span><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-0">handleAgentStart</span><span class="hl-1"> = () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&quot;Agent has started.&quot;</span><span class="hl-1">);</span><br/><span class="hl-1">      </span><span class="hl-7">// Additional logic when the agent starts</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-7">// Start the AvatarVideoManager call with dynamic data</span><br/><span class="hl-1">    </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">startCall</span><span class="hl-1">({</span><br/><span class="hl-1">      </span><span class="hl-4">containerId:</span><span class="hl-1"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">avatarName:</span><span class="hl-1"> </span><span class="hl-4">selectedAvatar</span><span class="hl-1">.</span><span class="hl-4">name</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-4">selectedAvatar</span><span class="hl-1">.</span><span class="hl-4">avatarId</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">params:</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">user_name:</span><span class="hl-1"> </span><span class="hl-4">user</span><span class="hl-1">.</span><span class="hl-4">name</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-4">position:</span><span class="hl-1"> </span><span class="hl-4">user</span><span class="hl-1">.</span><span class="hl-4">jobRole</span><span class="hl-1">,</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      </span><span class="hl-4">onAgentStart:</span><span class="hl-1"> </span><span class="hl-4">handleAgentStart</span><span class="hl-1">,</span><br/><span class="hl-1">    });</span><br/><br/><span class="hl-1">    </span><span class="hl-7">// Cleanup on component unmount</span><br/><span class="hl-1">    </span><span class="hl-3">return</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">endCall</span><span class="hl-1">();</span><br/><span class="hl-1">    };</span><br/><span class="hl-1">  }, []);</span><br/><br/><span class="hl-1">  </span><span class="hl-7">// Example usage of other methods</span><br/><span class="hl-1">  </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-0">handleVolumeChange</span><span class="hl-1"> = (</span><span class="hl-4">volume</span><span class="hl-1">: </span><span class="hl-9">number</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">setVolume</span><span class="hl-1">(</span><span class="hl-4">volume</span><span class="hl-1">);</span><br/><span class="hl-1">  };</span><br/><br/><span class="hl-1">  </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-0">pauseAgent</span><span class="hl-1"> = () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">pause</span><span class="hl-1">();</span><br/><span class="hl-1">  };</span><br/><br/><span class="hl-1">  </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-0">resumeAgent</span><span class="hl-1"> = () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">resume</span><span class="hl-1">();</span><br/><span class="hl-1">  };</span><br/><br/><span class="hl-1">  </span><span class="hl-3">return</span><span class="hl-1"> (</span><br/><span class="hl-1">    &lt;</span><span class="hl-9">div</span><span class="hl-1">&gt;</span><br/><span class="hl-1">      {</span><span class="hl-7">/* Your component UI */</span><span class="hl-1">}</span><br/><span class="hl-1">      &lt;</span><span class="hl-4">div</span><span class="hl-1"> </span><span class="hl-4">id</span><span class="hl-1">=</span><span class="hl-2">&quot;video-container&quot;</span><span class="hl-1">&gt;&lt;/</span><span class="hl-9">div</span><span class="hl-1">&gt;</span><br/><span class="hl-1">      {</span><span class="hl-7">/* Additional UI elements */</span><span class="hl-1">}</span><br/><span class="hl-1">    &lt;/</span><span class="hl-4">div</span><span class="hl-1">&gt;</span><br/><span class="hl-1">  );</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-3">export</span><span class="hl-1"> </span><span class="hl-3">default</span><span class="hl-1"> </span><span class="hl-4">LiveDemoPage</span><span class="hl-1">;</span>
+          </h3>
+          <pre><code class="typescript"><br/><span class="hl-3">import</span><span class="hl-1"> </span><span class="hl-4">React</span><span class="hl-1">, { </span><span class="hl-4">useEffect</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;react&quot;</span><span class="hl-1">;</span><br/><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">AvatarVideoManager</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@hamsa-ai/avatars-sdk&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">apiKey</span><span class="hl-1"> = </span><span class="hl-4">process</span><span class="hl-1">.</span><span class="hl-4">env</span><span class="hl-1">.</span><span class="hl-6">REACT_APP_HAMSA_API_KEY</span><span class="hl-1"> </span><span class="hl-3">as</span><span class="hl-1"> </span><span class="hl-8">string</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">options</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-4">apiKey</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">debugEnabled:</span><span class="hl-1"> </span><span class="hl-5">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">logLevel:</span><span class="hl-1"> </span><span class="hl-2">&quot;trace&quot;</span><span class="hl-1"> </span><span class="hl-3">as</span><span class="hl-1"> </span><span class="hl-8">log</span><span class="hl-1">.</span><span class="hl-8">LogLevelDesc</span><span class="hl-1">,</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">avatarVideoManager</span><span class="hl-1"> = </span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">getInstance</span><span class="hl-1">(</span><span class="hl-4">options</span><span class="hl-1">);</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-0">LiveDemoPage</span><span class="hl-1">: </span><span class="hl-8">React</span><span class="hl-1">.</span><span class="hl-8">FC</span><span class="hl-1"> = () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-0">useEffect</span><span class="hl-1">(() </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">selectedAvatar</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-2">&#39;avatar-123&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">user</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">jobRole:</span><span class="hl-1"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">callbacks</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-0">onLoadingChange</span><span class="hl-4">:</span><span class="hl-1"> (</span><span class="hl-4">isLoading</span><span class="hl-1">: </span><span class="hl-8">boolean</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-4">isLoading</span><span class="hl-1">) {</span><br/><span class="hl-1">          </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Loading avatar and voice agent...&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">        } </span><span class="hl-3">else</span><span class="hl-1"> {</span><br/><span class="hl-1">          </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Avatar and voice agent are ready.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">        }</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      </span><span class="hl-0">onError</span><span class="hl-4">:</span><span class="hl-1"> (</span><span class="hl-4">error</span><span class="hl-1">: </span><span class="hl-8">Error</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-2">&#39;An error occurred:&#39;</span><span class="hl-1">, </span><span class="hl-4">error</span><span class="hl-1">.</span><span class="hl-4">message</span><span class="hl-1">);</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      </span><span class="hl-0">onAgentStart</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&quot;Agent has started.&quot;</span><span class="hl-1">);</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      </span><span class="hl-0">onAgentEnd</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&quot;Agent has ended.&quot;</span><span class="hl-1">);</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">initialize</span><span class="hl-1">({</span><br/><span class="hl-1">      </span><span class="hl-4">containerId:</span><span class="hl-1"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">avatarName:</span><span class="hl-1"> </span><span class="hl-4">selectedAvatar</span><span class="hl-1">.</span><span class="hl-4">name</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-4">selectedAvatar</span><span class="hl-1">.</span><span class="hl-4">avatarId</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">params:</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">user_name:</span><span class="hl-1"> </span><span class="hl-4">user</span><span class="hl-1">.</span><span class="hl-4">name</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-4">position:</span><span class="hl-1"> </span><span class="hl-4">user</span><span class="hl-1">.</span><span class="hl-4">jobRole</span><span class="hl-1">,</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">    }, </span><span class="hl-4">callbacks</span><span class="hl-1">)</span><br/><span class="hl-1">    .</span><span class="hl-0">then</span><span class="hl-1">(() </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Initialization successful.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">    })</span><br/><span class="hl-1">    .</span><span class="hl-0">catch</span><span class="hl-1">((</span><span class="hl-4">error</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-2">&#39;Initialization failed:&#39;</span><span class="hl-1">, </span><span class="hl-4">error</span><span class="hl-1">.</span><span class="hl-4">message</span><span class="hl-1">);</span><br/><span class="hl-1">    });</span><br/><br/><span class="hl-1">    </span><span class="hl-3">return</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">endCall</span><span class="hl-1">();</span><br/><span class="hl-1">    };</span><br/><span class="hl-1">  }, []);</span><br/><br/><span class="hl-1">  </span><span class="hl-3">return</span><span class="hl-1"> (</span><br/><span class="hl-1">    &lt;</span><span class="hl-8">div</span><span class="hl-1">&gt;</span><br/><span class="hl-1">      &lt;</span><span class="hl-4">div</span><span class="hl-1"> </span><span class="hl-4">id</span><span class="hl-1">=</span><span class="hl-2">&quot;video-container&quot;</span><span class="hl-1">&gt;&lt;/</span><span class="hl-8">div</span><span class="hl-1">&gt;</span><br/><span class="hl-1">    &lt;/</span><span class="hl-4">div</span><span class="hl-1">&gt;</span><br/><span class="hl-1">  );</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-3">export</span><span class="hl-1"> </span><span class="hl-3">default</span><span class="hl-1"> </span><span class="hl-4">LiveDemoPage</span><span class="hl-1">;</span>
 </code><button type="button">Copy</button></pre>
 
           <a
             id="md:vuejs"
             class="tsd-anchor"
           ></a>
-          <h4 class="tsd-anchor-link">
+          <h3 class="tsd-anchor-link">
             Vue.js<a
               href="#md:vuejs"
               aria-label="Permalink"
               class="tsd-anchor-icon"
               ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
             ></a>
-          </h4>
-          <pre><code class="vue"><!-- LiveDemoPage.vue -->
-
-<template>
-  <div>
-    <div id="video-container"></div>
-  </div>
-</template>
-
-<script setup lang="ts">
-import {onMounted, onBeforeUnmount} from 'vue';
-import {AvatarVideoManager} from '@hamsa-ai/hamsa-avatars-sdk';
-
-// API Key for Hamsa Voice Agent
-const apiKey = import.meta.env.VITE_APP_HAMSA_API_KEY as string;
-
-// Singleton options (static configuration)
-const options: AvatarVideoManagerOptions = {
-  apiKey,
-  debugEnabled: true,
-  logLevel: 'trace',
-};
-
-// Get the singleton instance outside the component
-const avatarVideoManager = AvatarVideoManager.getInstance(options);
-
-// Define your avatar and user data
-const selectedAvatar = {
-  name: 'defaultAvatar',
-  avatarId: 'avatar-123',
-};
-
-const user = {
-  name: 'John Doe',
-  jobRole: 'Developer',
-};
-
-// Callback when the agent starts
-const handleAgentStart = () => {
-  console.log('Agent has started.');
-  // Additional logic when the agent starts
-};
-
-onMounted(() => {
-  avatarVideoManager.startCall({
-    containerId: 'video-container',
-    avatarName: selectedAvatar.name,
-    avatarId: selectedAvatar.avatarId,
-    params: {
-      user_name: user.name,
-      position: user.jobRole,
-    },
-    onAgentStart,
-  });
-});
-
-onBeforeUnmount(() => {
-  avatarVideoManager.endCall();
-});
-</script>
-
-<style scoped>
-/* Add your styles here */
-</style>
+          </h3>
+          <pre><code class="html"><span class="hl-10">&lt;</span><span class="hl-11">template</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;</span><span class="hl-11">div</span><span class="hl-10">&gt;</span><br/><span class="hl-1">    </span><span class="hl-10">&lt;</span><span class="hl-11">div</span><span class="hl-1"> </span><span class="hl-12">id</span><span class="hl-1">=</span><span class="hl-13">&quot;video-container&quot;</span><span class="hl-10">&gt;&lt;/</span><span class="hl-11">div</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;/</span><span class="hl-11">div</span><span class="hl-10">&gt;</span><br/><span class="hl-10">&lt;/</span><span class="hl-11">template</span><span class="hl-10">&gt;</span><br/><br/><span class="hl-10">&lt;</span><span class="hl-11">script</span><br/><span class="hl-14">  </span><span class="hl-12">setup</span><br/><span class="hl-14">  </span><span class="hl-12">lang</span><span class="hl-14">=</span><span class="hl-13">&quot;ts&quot;</span><br/><span class="hl-10">&gt;</span><br/><span class="hl-14">  </span><span class="hl-3">import</span><span class="hl-14"> {</span><span class="hl-4">onMounted</span><span class="hl-14">, </span><span class="hl-4">onBeforeUnmount</span><span class="hl-14">} </span><span class="hl-3">from</span><span class="hl-14"> </span><span class="hl-2">&#39;vue&#39;</span><span class="hl-14">;</span><br/><span class="hl-14">  </span><span class="hl-3">import</span><span class="hl-14"> {</span><span class="hl-4">AvatarVideoManager</span><span class="hl-14">} </span><span class="hl-3">from</span><span class="hl-14"> </span><span class="hl-2">&#39;@hamsa-ai/avatars-sdk&#39;</span><span class="hl-14">;</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">apiKey</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> </span><span class="hl-3">import</span><span class="hl-14">.</span><span class="hl-4">meta</span><span class="hl-14">.</span><span class="hl-4">env</span><span class="hl-14">.</span><span class="hl-6">VITE_APP_HAMSA_API_KEY</span><span class="hl-14"> </span><span class="hl-3">as</span><span class="hl-14"> </span><span class="hl-8">string</span><span class="hl-14">;</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">options</span><span class="hl-1">:</span><span class="hl-14"> </span><span class="hl-8">AvatarVideoManagerOptions</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-4">apiKey</span><span class="hl-14">,</span><br/><span class="hl-14">    </span><span class="hl-4">debugEnabled:</span><span class="hl-14"> </span><span class="hl-5">true</span><span class="hl-14">,</span><br/><span class="hl-14">    </span><span class="hl-4">logLevel:</span><span class="hl-14"> </span><span class="hl-2">&#39;trace&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">  };</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">avatarVideoManager</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> </span><span class="hl-4">AvatarVideoManager</span><span class="hl-14">.</span><span class="hl-0">getInstance</span><span class="hl-14">(</span><span class="hl-4">options</span><span class="hl-14">);</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">selectedAvatar</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-4">name:</span><span class="hl-14"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">    </span><span class="hl-4">avatarId:</span><span class="hl-14"> </span><span class="hl-2">&#39;avatar-123&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">  };</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">user</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-4">name:</span><span class="hl-14"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">    </span><span class="hl-4">jobRole:</span><span class="hl-14"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">  };</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">callbacks</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-0">onLoadingChange</span><span class="hl-4">:</span><span class="hl-14"> (</span><span class="hl-4">isLoading</span><span class="hl-1">:</span><span class="hl-14"> </span><span class="hl-8">boolean</span><span class="hl-14">) </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">      </span><span class="hl-3">if</span><span class="hl-14"> (</span><span class="hl-4">isLoading</span><span class="hl-14">) {</span><br/><span class="hl-14">        </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Loading avatar and voice agent...&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">      } </span><span class="hl-3">else</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Avatar and voice agent are ready.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">      }</span><br/><span class="hl-14">    },</span><br/><span class="hl-14">    </span><span class="hl-0">onError</span><span class="hl-4">:</span><span class="hl-14"> (</span><span class="hl-4">error</span><span class="hl-1">:</span><span class="hl-14"> </span><span class="hl-8">Error</span><span class="hl-14">) </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">      </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">error</span><span class="hl-14">(</span><span class="hl-2">&#39;An error occurred:&#39;</span><span class="hl-14">, </span><span class="hl-4">error</span><span class="hl-14">.</span><span class="hl-4">message</span><span class="hl-14">);</span><br/><span class="hl-14">    },</span><br/><span class="hl-14">    </span><span class="hl-0">onAgentStart</span><span class="hl-4">:</span><span class="hl-14"> () </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">      </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Agent has started.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">    },</span><br/><span class="hl-14">    </span><span class="hl-0">onAgentEnd</span><span class="hl-4">:</span><span class="hl-14"> () </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">      </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Agent has ended.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">    },</span><br/><span class="hl-14">  };</span><br/><br/><span class="hl-14">  </span><span class="hl-0">onMounted</span><span class="hl-14">(() </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-4">avatarVideoManager</span><br/><span class="hl-14">      .</span><span class="hl-0">initialize</span><span class="hl-14">(</span><br/><span class="hl-14">        {</span><br/><span class="hl-14">          </span><span class="hl-4">containerId:</span><span class="hl-14"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">          </span><span class="hl-4">avatarName:</span><span class="hl-14"> </span><span class="hl-4">selectedAvatar</span><span class="hl-14">.</span><span class="hl-4">name</span><span class="hl-14">,</span><br/><span class="hl-14">          </span><span class="hl-4">avatarId:</span><span class="hl-14"> </span><span class="hl-4">selectedAvatar</span><span class="hl-14">.</span><span class="hl-4">avatarId</span><span class="hl-14">,</span><br/><span class="hl-14">          </span><span class="hl-4">params:</span><span class="hl-14"> {</span><br/><span class="hl-14">            </span><span class="hl-4">user_name:</span><span class="hl-14"> </span><span class="hl-4">user</span><span class="hl-14">.</span><span class="hl-4">name</span><span class="hl-14">,</span><br/><span class="hl-14">            </span><span class="hl-4">position:</span><span class="hl-14"> </span><span class="hl-4">user</span><span class="hl-14">.</span><span class="hl-4">jobRole</span><span class="hl-14">,</span><br/><span class="hl-14">          },</span><br/><span class="hl-14">        },</span><br/><span class="hl-14">        </span><span class="hl-4">callbacks</span><br/><span class="hl-14">      )</span><br/><span class="hl-14">      .</span><span class="hl-0">then</span><span class="hl-14">(() </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Initialization successful.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">      })</span><br/><span class="hl-14">      .</span><span class="hl-0">catch</span><span class="hl-14">(</span><span class="hl-4">error</span><span class="hl-14"> </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">error</span><span class="hl-14">(</span><span class="hl-2">&#39;Initialization failed:&#39;</span><span class="hl-14">, </span><span class="hl-4">error</span><span class="hl-14">.</span><span class="hl-4">message</span><span class="hl-14">);</span><br/><span class="hl-14">      });</span><br/><span class="hl-14">  });</span><br/><br/><span class="hl-14">  </span><span class="hl-0">onBeforeUnmount</span><span class="hl-14">(() </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-4">avatarVideoManager</span><span class="hl-14">.</span><span class="hl-0">endCall</span><span class="hl-14">();</span><br/><span class="hl-14">  });</span><br/><span class="hl-10">&lt;/</span><span class="hl-11">script</span><span class="hl-10">&gt;</span>
 </code><button type="button">Copy</button></pre>
 
           <a
             id="md:angular"
             class="tsd-anchor"
           ></a>
-          <h4 class="tsd-anchor-link">
+          <h3 class="tsd-anchor-link">
             Angular<a
               href="#md:angular"
               aria-label="Permalink"
               class="tsd-anchor-icon"
               ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
             ></a>
-          </h4>
-          <pre><code class="typescript"><span class="hl-7">// live-demo.component.ts</span><br/><br/><span class="hl-3">import</span><span class="hl-1"> {</span><span class="hl-4">Component</span><span class="hl-1">, </span><span class="hl-4">OnInit</span><span class="hl-1">, </span><span class="hl-4">OnDestroy</span><span class="hl-1">} </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@angular/core&#39;</span><span class="hl-1">;</span><br/><span class="hl-3">import</span><span class="hl-1"> {</span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">} </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@hamsa-ai/hamsa-avatars-sdk&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-7">// API Key for Hamsa Voice Agent</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">apiKey</span><span class="hl-1"> = </span><span class="hl-2">&#39;YOUR_API_KEY&#39;</span><span class="hl-1">; </span><span class="hl-7">// Replace with your actual API key</span><br/><br/><span class="hl-1">@</span><span class="hl-0">Component</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">selector:</span><span class="hl-1"> </span><span class="hl-2">&#39;app-live-demo&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">template:</span><span class="hl-1"> </span><span class="hl-2">`&lt;div id=&quot;video-container&quot;&gt;&lt;/div&gt;`</span><span class="hl-1">,</span><br/><span class="hl-1">})</span><br/><span class="hl-3">export</span><span class="hl-1"> </span><span class="hl-5">class</span><span class="hl-1"> </span><span class="hl-9">LiveDemoComponent</span><span class="hl-1"> </span><span class="hl-5">implements</span><span class="hl-1"> </span><span class="hl-9">OnInit</span><span class="hl-1">, </span><span class="hl-9">OnDestroy</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-7">// Singleton instance</span><br/><span class="hl-1">  </span><span class="hl-5">private</span><span class="hl-1"> </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">: </span><span class="hl-9">AvatarVideoManager</span><span class="hl-1">;</span><br/><br/><span class="hl-1">  </span><span class="hl-5">constructor</span><span class="hl-1">() {</span><br/><span class="hl-1">    </span><span class="hl-7">// Singleton options (static configuration)</span><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">options</span><span class="hl-1">: </span><span class="hl-9">AvatarVideoManagerOptions</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">apiKey</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">debugEnabled:</span><span class="hl-1"> </span><span class="hl-5">true</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">logLevel:</span><span class="hl-1"> </span><span class="hl-2">&#39;trace&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1"> = </span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">getInstance</span><span class="hl-1">(</span><span class="hl-4">options</span><span class="hl-1">);</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-0">ngOnInit</span><span class="hl-1">(): </span><span class="hl-9">void</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-7">// Define your avatar and user data</span><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">selectedAvatar</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-2">&#39;avatar-123&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">user</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">jobRole:</span><span class="hl-1"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-7">// Callback when the agent starts</span><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-0">handleAgentStart</span><span class="hl-1"> = () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Agent has started.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">      </span><span class="hl-7">// Additional logic when the agent starts</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-7">// Start the AvatarVideoManager call with dynamic data</span><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">startCall</span><span class="hl-1">({</span><br/><span class="hl-1">      </span><span class="hl-4">containerId:</span><span class="hl-1"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">avatarName:</span><span class="hl-1"> </span><span class="hl-4">selectedAvatar</span><span class="hl-1">.</span><span class="hl-4">name</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-4">selectedAvatar</span><span class="hl-1">.</span><span class="hl-4">avatarId</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">params:</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">user_name:</span><span class="hl-1"> </span><span class="hl-4">user</span><span class="hl-1">.</span><span class="hl-4">name</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-4">position:</span><span class="hl-1"> </span><span class="hl-4">user</span><span class="hl-1">.</span><span class="hl-4">jobRole</span><span class="hl-1">,</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      </span><span class="hl-4">onAgentStart:</span><span class="hl-1"> </span><span class="hl-4">handleAgentStart</span><span class="hl-1">,</span><br/><span class="hl-1">    });</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-0">ngOnDestroy</span><span class="hl-1">(): </span><span class="hl-9">void</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">endCall</span><span class="hl-1">();</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-7">// Example usage of other methods</span><br/><span class="hl-1">  </span><span class="hl-0">setVolume</span><span class="hl-1">(</span><span class="hl-4">volume</span><span class="hl-1">: </span><span class="hl-9">number</span><span class="hl-1">): </span><span class="hl-9">void</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">setVolume</span><span class="hl-1">(</span><span class="hl-4">volume</span><span class="hl-1">);</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-0">pauseAgent</span><span class="hl-1">(): </span><span class="hl-9">void</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">pause</span><span class="hl-1">();</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-0">resumeAgent</span><span class="hl-1">(): </span><span class="hl-9">void</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">resume</span><span class="hl-1">();</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+          </h3>
+          <pre><code class="typescript"><span class="hl-3">import</span><span class="hl-1"> {</span><span class="hl-4">Component</span><span class="hl-1">, </span><span class="hl-4">OnInit</span><span class="hl-1">, </span><span class="hl-4">OnDestroy</span><span class="hl-1">} </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@angular/core&#39;</span><span class="hl-1">;</span><br/><span class="hl-3">import</span><span class="hl-1"> {</span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">} </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@hamsa-ai/avatars-sdk&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">apiKey</span><span class="hl-1"> = </span><span class="hl-2">&#39;YOUR_API_KEY&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-1">@</span><span class="hl-0">Component</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">selector:</span><span class="hl-1"> </span><span class="hl-2">&#39;app-live-demo&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">template:</span><span class="hl-1"> </span><span class="hl-2">`&lt;div id=&quot;video-container&quot;&gt;&lt;/div&gt;`</span><span class="hl-1">,</span><br/><span class="hl-1">})</span><br/><span class="hl-3">export</span><span class="hl-1"> </span><span class="hl-5">class</span><span class="hl-1"> </span><span class="hl-8">LiveDemoComponent</span><span class="hl-1"> </span><span class="hl-5">implements</span><span class="hl-1"> </span><span class="hl-8">OnInit</span><span class="hl-1">, </span><span class="hl-8">OnDestroy</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-5">private</span><span class="hl-1"> </span><span class="hl-4">avatarVideoManager</span><span class="hl-1">: </span><span class="hl-8">AvatarVideoManager</span><span class="hl-1">;</span><br/><br/><span class="hl-1">  </span><span class="hl-5">constructor</span><span class="hl-1">() {</span><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">options</span><span class="hl-1">: </span><span class="hl-8">AvatarVideoManagerOptions</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">apiKey</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">debugEnabled:</span><span class="hl-1"> </span><span class="hl-5">true</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">logLevel:</span><span class="hl-1"> </span><span class="hl-2">&#39;trace&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1"> = </span><span class="hl-4">AvatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">getInstance</span><span class="hl-1">(</span><span class="hl-4">options</span><span class="hl-1">);</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-0">ngOnInit</span><span class="hl-1">(): </span><span class="hl-8">void</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">selectedAvatar</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-2">&#39;avatar-123&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">user</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">jobRole:</span><span class="hl-1"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">callbacks</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-0">onLoadingChange</span><span class="hl-4">:</span><span class="hl-1"> (</span><span class="hl-4">isLoading</span><span class="hl-1">: </span><span class="hl-8">boolean</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-4">isLoading</span><span class="hl-1">) {</span><br/><span class="hl-1">          </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Loading avatar and voice agent...&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">        } </span><span class="hl-3">else</span><span class="hl-1"> {</span><br/><span class="hl-1">          </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Avatar and voice agent are ready.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">        }</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      </span><span class="hl-0">onError</span><span class="hl-4">:</span><span class="hl-1"> (</span><span class="hl-4">error</span><span class="hl-1">: </span><span class="hl-8">Error</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-2">&#39;An error occurred:&#39;</span><span class="hl-1">, </span><span class="hl-4">error</span><span class="hl-1">.</span><span class="hl-4">message</span><span class="hl-1">);</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      </span><span class="hl-0">onAgentStart</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Agent has started.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      </span><span class="hl-0">onAgentEnd</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Agent has ended.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">    };</span><br/><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><br/><span class="hl-1">      .</span><span class="hl-0">initialize</span><span class="hl-1">(</span><br/><span class="hl-1">        {</span><br/><span class="hl-1">          </span><span class="hl-4">containerId:</span><span class="hl-1"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">          </span><span class="hl-4">avatarName:</span><span class="hl-1"> </span><span class="hl-4">selectedAvatar</span><span class="hl-1">.</span><span class="hl-4">name</span><span class="hl-1">,</span><br/><span class="hl-1">          </span><span class="hl-4">avatarId:</span><span class="hl-1"> </span><span class="hl-4">selectedAvatar</span><span class="hl-1">.</span><span class="hl-4">avatarId</span><span class="hl-1">,</span><br/><span class="hl-1">          </span><span class="hl-4">params:</span><span class="hl-1"> {</span><br/><span class="hl-1">            </span><span class="hl-4">user_name:</span><span class="hl-1"> </span><span class="hl-4">user</span><span class="hl-1">.</span><span class="hl-4">name</span><span class="hl-1">,</span><br/><span class="hl-1">            </span><span class="hl-4">position:</span><span class="hl-1"> </span><span class="hl-4">user</span><span class="hl-1">.</span><span class="hl-4">jobRole</span><span class="hl-1">,</span><br/><span class="hl-1">          },</span><br/><span class="hl-1">        },</span><br/><span class="hl-1">        </span><span class="hl-4">callbacks</span><br/><span class="hl-1">      )</span><br/><span class="hl-1">      .</span><span class="hl-0">then</span><span class="hl-1">(() </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Initialization successful.&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">      })</span><br/><span class="hl-1">      .</span><span class="hl-0">catch</span><span class="hl-1">(</span><span class="hl-4">error</span><span class="hl-1"> </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-2">&#39;Initialization failed:&#39;</span><span class="hl-1">, </span><span class="hl-4">error</span><span class="hl-1">.</span><span class="hl-4">message</span><span class="hl-1">);</span><br/><span class="hl-1">      });</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-0">ngOnDestroy</span><span class="hl-1">(): </span><span class="hl-8">void</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">endCall</span><span class="hl-1">();</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-0">setVolume</span><span class="hl-1">(</span><span class="hl-4">volume</span><span class="hl-1">: </span><span class="hl-8">number</span><span class="hl-1">): </span><span class="hl-8">void</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">setVolume</span><span class="hl-1">(</span><span class="hl-4">volume</span><span class="hl-1">);</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-0">pauseAgent</span><span class="hl-1">(): </span><span class="hl-8">void</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">pause</span><span class="hl-1">();</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-0">resumeAgent</span><span class="hl-1">(): </span><span class="hl-8">void</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">this</span><span class="hl-1">.</span><span class="hl-4">avatarVideoManager</span><span class="hl-1">.</span><span class="hl-0">resume</span><span class="hl-1">();</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
 </code><button type="button">Copy</button></pre>
 
           <a
             id="md:svelte"
             class="tsd-anchor"
           ></a>
-          <h4 class="tsd-anchor-link">
+          <h3 class="tsd-anchor-link">
             Svelte<a
               href="#md:svelte"
               aria-label="Permalink"
               class="tsd-anchor-icon"
               ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
             ></a>
-          </h4>
-          <pre><code class="svelte"><!-- LiveDemoPage.svelte -->
-
-<script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import { AvatarVideoManager } from '@hamsa-ai/hamsa-avatars-sdk';
-
-  // API Key for Hamsa Voice Agent
-  const apiKey = import.meta.env.VITE_APP_HAMSA_API_KEY as string;
-
-  // Singleton options (static configuration)
-  const options: AvatarVideoManagerOptions = {
-    apiKey,
-    debugEnabled: true,
-    logLevel: 'trace',
-  };
-
-  // Get the singleton instance outside the component
-  const avatarVideoManager = AvatarVideoManager.getInstance(options);
-
-  // Define your avatar and user data
-  const selectedAvatar = {
-    name: 'defaultAvatar',
-    avatarId: 'avatar-123',
-  };
-
-  const user = {
-    name: 'John Doe',
-    jobRole: 'Developer',
-  };
-
-  // Callback when the agent starts
-  const handleAgentStart = () => {
-    console.log("Agent has started.");
-    // Additional logic when the agent starts
-  };
-
-  onMount(() => {
-    avatarVideoManager.startCall({
-      containerId: 'video-container',
-      avatarName: selectedAvatar.name,
-      avatarId: selectedAvatar.avatarId,
-      params: {
-        user_name: user.name,
-        position: user.jobRole,
-      },
-      onAgentStart,
-    });
-  });
-
-  onDestroy(() => {
-    avatarVideoManager.endCall();
-  });
-
-  // Example usage of other methods
-  function setVolume(volume: number) {
-    avatarVideoManager.setVolume(volume);
-  }
-
-  function pauseAgent() {
-    avatarVideoManager.pause();
-  }
-
-  function resumeAgent() {
-    avatarVideoManager.resume();
-  }
-</script>
-
-<div>
-  <div id="video-container"></div>
-</div>
+          </h3>
+          <pre><code class="html"><span class="hl-10">&lt;</span><span class="hl-11">script</span><span class="hl-14"> </span><span class="hl-12">lang</span><span class="hl-14">=</span><span class="hl-13">&quot;ts&quot;</span><span class="hl-10">&gt;</span><br/><span class="hl-14">  </span><span class="hl-3">import</span><span class="hl-14"> {</span><span class="hl-4">onMount</span><span class="hl-14">, </span><span class="hl-4">onDestroy</span><span class="hl-14">} </span><span class="hl-3">from</span><span class="hl-14"> </span><span class="hl-2">&#39;svelte&#39;</span><span class="hl-14">;</span><br/><span class="hl-14">  </span><span class="hl-3">import</span><span class="hl-14"> {</span><span class="hl-4">AvatarVideoManager</span><span class="hl-14">} </span><span class="hl-3">from</span><span class="hl-14"> </span><span class="hl-2">&#39;@hamsa-ai/avatars-sdk&#39;</span><span class="hl-14">;</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">apiKey</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> </span><span class="hl-3">import</span><span class="hl-14">.</span><span class="hl-4">meta</span><span class="hl-14">.</span><span class="hl-4">env</span><span class="hl-14">.</span><span class="hl-6">VITE_APP_HAMSA_API_KEY</span><span class="hl-14"> </span><span class="hl-3">as</span><span class="hl-14"> </span><span class="hl-8">string</span><span class="hl-14">;</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">options</span><span class="hl-1">:</span><span class="hl-14"> </span><span class="hl-8">AvatarVideoManagerOptions</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-4">apiKey</span><span class="hl-14">,</span><br/><span class="hl-14">    </span><span class="hl-4">debugEnabled:</span><span class="hl-14"> </span><span class="hl-5">true</span><span class="hl-14">,</span><br/><span class="hl-14">    </span><span class="hl-4">logLevel:</span><span class="hl-14"> </span><span class="hl-2">&#39;trace&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">  };</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">avatarVideoManager</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> </span><span class="hl-4">AvatarVideoManager</span><span class="hl-14">.</span><span class="hl-0">getInstance</span><span class="hl-14">(</span><span class="hl-4">options</span><span class="hl-14">);</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">selectedAvatar</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-4">name:</span><span class="hl-14"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">    </span><span class="hl-4">avatarId:</span><span class="hl-14"> </span><span class="hl-2">&#39;avatar-123&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">  };</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">user</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-4">name:</span><span class="hl-14"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">    </span><span class="hl-4">jobRole:</span><span class="hl-14"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">  };</span><br/><br/><span class="hl-14">  </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">callbacks</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-0">onLoadingChange</span><span class="hl-4">:</span><span class="hl-14"> (</span><span class="hl-4">isLoading</span><span class="hl-1">:</span><span class="hl-14"> </span><span class="hl-8">boolean</span><span class="hl-14">) </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">      </span><span class="hl-3">if</span><span class="hl-14"> (</span><span class="hl-4">isLoading</span><span class="hl-14">) {</span><br/><span class="hl-14">        </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Loading avatar and voice agent...&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">      } </span><span class="hl-3">else</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Avatar and voice agent are ready.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">      }</span><br/><span class="hl-14">    },</span><br/><span class="hl-14">    </span><span class="hl-0">onError</span><span class="hl-4">:</span><span class="hl-14"> (</span><span class="hl-4">error</span><span class="hl-1">:</span><span class="hl-14"> </span><span class="hl-8">Error</span><span class="hl-14">) </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">      </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">error</span><span class="hl-14">(</span><span class="hl-2">&#39;An error occurred:&#39;</span><span class="hl-14">, </span><span class="hl-4">error</span><span class="hl-14">.</span><span class="hl-4">message</span><span class="hl-14">);</span><br/><span class="hl-14">    },</span><br/><span class="hl-14">    </span><span class="hl-0">onAgentStart</span><span class="hl-4">:</span><span class="hl-14"> () </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">      </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Agent has started.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">    },</span><br/><span class="hl-14">    </span><span class="hl-0">onAgentEnd</span><span class="hl-4">:</span><span class="hl-14"> () </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">      </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Agent has ended.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">    },</span><br/><span class="hl-14">  };</span><br/><br/><span class="hl-14">  </span><span class="hl-0">onMount</span><span class="hl-14">(() </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-4">avatarVideoManager</span><br/><span class="hl-14">      .</span><span class="hl-0">initialize</span><span class="hl-14">(</span><br/><span class="hl-14">        {</span><br/><span class="hl-14">          </span><span class="hl-4">containerId:</span><span class="hl-14"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">          </span><span class="hl-4">avatarName:</span><span class="hl-14"> </span><span class="hl-4">selectedAvatar</span><span class="hl-14">.</span><span class="hl-4">name</span><span class="hl-14">,</span><br/><span class="hl-14">          </span><span class="hl-4">avatarId:</span><span class="hl-14"> </span><span class="hl-4">selectedAvatar</span><span class="hl-14">.</span><span class="hl-4">avatarId</span><span class="hl-14">,</span><br/><span class="hl-14">          </span><span class="hl-4">params:</span><span class="hl-14"> {</span><br/><span class="hl-14">            </span><span class="hl-4">user_name:</span><span class="hl-14"> </span><span class="hl-4">user</span><span class="hl-14">.</span><span class="hl-4">name</span><span class="hl-14">,</span><br/><span class="hl-14">            </span><span class="hl-4">position:</span><span class="hl-14"> </span><span class="hl-4">user</span><span class="hl-14">.</span><span class="hl-4">jobRole</span><span class="hl-14">,</span><br/><span class="hl-14">          },</span><br/><span class="hl-14">        },</span><br/><span class="hl-14">        </span><span class="hl-4">callbacks</span><br/><span class="hl-14">      )</span><br/><span class="hl-14">      .</span><span class="hl-0">then</span><span class="hl-14">(() </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Initialization successful.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">      })</span><br/><span class="hl-14">      .</span><span class="hl-0">catch</span><span class="hl-14">(</span><span class="hl-4">error</span><span class="hl-14"> </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">error</span><span class="hl-14">(</span><span class="hl-2">&#39;Initialization failed:&#39;</span><span class="hl-14">, </span><span class="hl-4">error</span><span class="hl-14">.</span><span class="hl-4">message</span><span class="hl-14">);</span><br/><span class="hl-14">      });</span><br/><span class="hl-14">  });</span><br/><br/><span class="hl-14">  </span><span class="hl-0">onDestroy</span><span class="hl-14">(() </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">    </span><span class="hl-4">avatarVideoManager</span><span class="hl-14">.</span><span class="hl-0">endCall</span><span class="hl-14">();</span><br/><span class="hl-14">  });</span><br/><span class="hl-10">&lt;/</span><span class="hl-11">script</span><span class="hl-10">&gt;</span><br/><br/><span class="hl-10">&lt;</span><span class="hl-11">div</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;</span><span class="hl-11">div</span><span class="hl-1"> </span><span class="hl-12">id</span><span class="hl-1">=</span><span class="hl-13">&quot;video-container&quot;</span><span class="hl-10">&gt;&lt;/</span><span class="hl-11">div</span><span class="hl-10">&gt;</span><br/><span class="hl-10">&lt;/</span><span class="hl-11">div</span><span class="hl-10">&gt;</span>
 </code><button type="button">Copy</button></pre>
 
           <a
             id="md:vanilla-javascript"
             class="tsd-anchor"
           ></a>
-          <h4 class="tsd-anchor-link">
+          <h3 class="tsd-anchor-link">
             Vanilla JavaScript<a
               href="#md:vanilla-javascript"
               aria-label="Permalink"
               class="tsd-anchor-icon"
               ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
             ></a>
-          </h4>
-          <pre><code class="html"><span class="hl-7">&lt;!-- index.html --&gt;</span><br/><br/><span class="hl-10">&lt;!</span><span class="hl-11">doctype</span><span class="hl-1"> </span><span class="hl-12">html</span><span class="hl-10">&gt;</span><br/><span class="hl-10">&lt;</span><span class="hl-11">html</span><span class="hl-1"> </span><span class="hl-12">lang</span><span class="hl-1">=</span><span class="hl-13">&quot;en&quot;</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;</span><span class="hl-11">head</span><span class="hl-10">&gt;</span><br/><span class="hl-1">    </span><span class="hl-10">&lt;</span><span class="hl-11">meta</span><span class="hl-1"> </span><span class="hl-12">charset</span><span class="hl-1">=</span><span class="hl-13">&quot;UTF-8&quot;</span><span class="hl-1"> </span><span class="hl-10">/&gt;</span><br/><span class="hl-1">    </span><span class="hl-10">&lt;</span><span class="hl-11">title</span><span class="hl-10">&gt;</span><span class="hl-1">Hamsa Avatars Live Demo</span><span class="hl-10">&lt;/</span><span class="hl-11">title</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;/</span><span class="hl-11">head</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;</span><span class="hl-11">body</span><span class="hl-10">&gt;</span><br/><span class="hl-1">    </span><span class="hl-10">&lt;</span><span class="hl-11">div</span><span class="hl-1"> </span><span class="hl-12">id</span><span class="hl-1">=</span><span class="hl-13">&quot;video-container&quot;</span><span class="hl-10">&gt;&lt;/</span><span class="hl-11">div</span><span class="hl-10">&gt;</span><br/><br/><span class="hl-1">    </span><span class="hl-7">&lt;!-- Include the SDK --&gt;</span><br/><span class="hl-1">    </span><span class="hl-10">&lt;</span><span class="hl-11">script</span><span class="hl-14"> </span><span class="hl-12">type</span><span class="hl-14">=</span><span class="hl-13">&quot;module&quot;</span><span class="hl-10">&gt;</span><br/><span class="hl-14">      </span><span class="hl-3">import</span><span class="hl-14"> {</span><span class="hl-4">AvatarVideoManager</span><span class="hl-14">} </span><span class="hl-3">from</span><span class="hl-14"> </span><span class="hl-2">&#39;@hamsa-ai/hamsa-avatars-sdk&#39;</span><span class="hl-14">;</span><br/><br/><span class="hl-14">      </span><span class="hl-7">// Configuration options</span><br/><span class="hl-14">      </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">options</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">apiKey:</span><span class="hl-14"> </span><span class="hl-2">&#39;your-api-key&#39;</span><span class="hl-14">, </span><span class="hl-7">// Replace with your actual API key</span><br/><span class="hl-14">        </span><span class="hl-4">debugEnabled:</span><span class="hl-14"> </span><span class="hl-5">true</span><span class="hl-14">,</span><br/><span class="hl-14">        </span><span class="hl-4">logLevel:</span><span class="hl-14"> </span><span class="hl-2">&#39;trace&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">      };</span><br/><br/><span class="hl-14">      </span><span class="hl-7">// Get the singleton instance</span><br/><span class="hl-14">      </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">avatarVideoManager</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> </span><span class="hl-4">AvatarVideoManager</span><span class="hl-14">.</span><span class="hl-0">getInstance</span><span class="hl-14">(</span><span class="hl-4">options</span><span class="hl-14">);</span><br/><br/><span class="hl-14">      </span><span class="hl-7">// Define your avatar and user data</span><br/><span class="hl-14">      </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">selectedAvatar</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">name:</span><span class="hl-14"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">        </span><span class="hl-4">avatarId:</span><span class="hl-14"> </span><span class="hl-2">&#39;avatar-123&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">      };</span><br/><br/><span class="hl-14">      </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">user</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">name:</span><span class="hl-14"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">        </span><span class="hl-4">jobRole:</span><span class="hl-14"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">      };</span><br/><br/><span class="hl-14">      </span><span class="hl-7">// Callback when the agent starts</span><br/><span class="hl-14">      </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-0">handleAgentStart</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> () </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Agent has started.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">        </span><span class="hl-7">// Additional logic when the agent starts</span><br/><span class="hl-14">      };</span><br/><br/><span class="hl-14">      </span><span class="hl-7">// Start the AvatarVideoManager call with dynamic data</span><br/><span class="hl-14">      </span><span class="hl-4">avatarVideoManager</span><span class="hl-14">.</span><span class="hl-0">startCall</span><span class="hl-14">({</span><br/><span class="hl-14">        </span><span class="hl-4">containerId:</span><span class="hl-14"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">        </span><span class="hl-4">avatarName:</span><span class="hl-14"> </span><span class="hl-4">selectedAvatar</span><span class="hl-14">.</span><span class="hl-4">name</span><span class="hl-14">,</span><br/><span class="hl-14">        </span><span class="hl-4">avatarId:</span><span class="hl-14"> </span><span class="hl-4">selectedAvatar</span><span class="hl-14">.</span><span class="hl-4">avatarId</span><span class="hl-14">,</span><br/><span class="hl-14">        </span><span class="hl-4">params:</span><span class="hl-14"> {</span><br/><span class="hl-14">          </span><span class="hl-4">user_name:</span><span class="hl-14"> </span><span class="hl-4">user</span><span class="hl-14">.</span><span class="hl-4">name</span><span class="hl-14">,</span><br/><span class="hl-14">          </span><span class="hl-4">position:</span><span class="hl-14"> </span><span class="hl-4">user</span><span class="hl-14">.</span><span class="hl-4">jobRole</span><span class="hl-14">,</span><br/><span class="hl-14">        },</span><br/><span class="hl-14">        </span><span class="hl-4">onAgentStart:</span><span class="hl-14"> </span><span class="hl-4">handleAgentStart</span><span class="hl-14">,</span><br/><span class="hl-14">      });</span><br/><br/><span class="hl-14">      </span><span class="hl-7">// Example usage of other methods</span><br/><span class="hl-14">      </span><span class="hl-7">// Set volume</span><br/><span class="hl-14">      </span><span class="hl-4">avatarVideoManager</span><span class="hl-14">.</span><span class="hl-0">setVolume</span><span class="hl-14">(</span><span class="hl-8">0.5</span><span class="hl-14">); </span><span class="hl-7">// Volume range from 0 to 1</span><br/><br/><span class="hl-14">      </span><span class="hl-7">// Pause the agent</span><br/><span class="hl-14">      </span><span class="hl-7">// avatarVideoManager.pause();</span><br/><br/><span class="hl-14">      </span><span class="hl-7">// Resume the agent</span><br/><span class="hl-14">      </span><span class="hl-7">// avatarVideoManager.resume();</span><br/><br/><span class="hl-14">      </span><span class="hl-7">// Cleanup on page unload</span><br/><span class="hl-14">      </span><span class="hl-4">window</span><span class="hl-14">.</span><span class="hl-0">addEventListener</span><span class="hl-14">(</span><span class="hl-2">&#39;beforeunload&#39;</span><span class="hl-14">, () </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">avatarVideoManager</span><span class="hl-14">.</span><span class="hl-0">endCall</span><span class="hl-14">();</span><br/><span class="hl-14">      });</span><br/><span class="hl-14">    </span><span class="hl-10">&lt;/</span><span class="hl-11">script</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;/</span><span class="hl-11">body</span><span class="hl-10">&gt;</span><br/><span class="hl-10">&lt;/</span><span class="hl-11">html</span><span class="hl-10">&gt;</span>
+          </h3>
+          <pre><code class="html"><span class="hl-7">&lt;!-- index.html --&gt;</span><br/><br/><span class="hl-10">&lt;!</span><span class="hl-11">doctype</span><span class="hl-1"> </span><span class="hl-12">html</span><span class="hl-10">&gt;</span><br/><span class="hl-10">&lt;</span><span class="hl-11">html</span><span class="hl-1"> </span><span class="hl-12">lang</span><span class="hl-1">=</span><span class="hl-13">&quot;en&quot;</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;</span><span class="hl-11">head</span><span class="hl-10">&gt;</span><br/><span class="hl-1">    </span><span class="hl-10">&lt;</span><span class="hl-11">meta</span><span class="hl-1"> </span><span class="hl-12">charset</span><span class="hl-1">=</span><span class="hl-13">&quot;UTF-8&quot;</span><span class="hl-1"> </span><span class="hl-10">/&gt;</span><br/><span class="hl-1">    </span><span class="hl-10">&lt;</span><span class="hl-11">title</span><span class="hl-10">&gt;</span><span class="hl-1">Hamsa Avatars Live Demo</span><span class="hl-10">&lt;/</span><span class="hl-11">title</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;/</span><span class="hl-11">head</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;</span><span class="hl-11">body</span><span class="hl-10">&gt;</span><br/><span class="hl-1">    </span><span class="hl-10">&lt;</span><span class="hl-11">div</span><span class="hl-1"> </span><span class="hl-12">id</span><span class="hl-1">=</span><span class="hl-13">&quot;video-container&quot;</span><span class="hl-10">&gt;&lt;/</span><span class="hl-11">div</span><span class="hl-10">&gt;</span><br/><br/><span class="hl-1">    </span><span class="hl-7">&lt;!-- Include the SDK --&gt;</span><br/><span class="hl-1">    </span><span class="hl-10">&lt;</span><span class="hl-11">script</span><span class="hl-14"> </span><span class="hl-12">type</span><span class="hl-14">=</span><span class="hl-13">&quot;module&quot;</span><span class="hl-10">&gt;</span><br/><span class="hl-14">      </span><span class="hl-3">import</span><span class="hl-14"> {</span><span class="hl-4">AvatarVideoManager</span><span class="hl-14">} </span><span class="hl-3">from</span><span class="hl-14"> </span><span class="hl-2">&#39;@hamsa-ai/avatars-sdk&#39;</span><span class="hl-14">;</span><br/><br/><span class="hl-14">      </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">options</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">apiKey:</span><span class="hl-14"> </span><span class="hl-2">&#39;your-api-key&#39;</span><span class="hl-14">, </span><span class="hl-7">// Replace with your actual API key</span><br/><span class="hl-14">        </span><span class="hl-4">debugEnabled:</span><span class="hl-14"> </span><span class="hl-5">true</span><span class="hl-14">,</span><br/><span class="hl-14">        </span><span class="hl-4">logLevel:</span><span class="hl-14"> </span><span class="hl-2">&#39;trace&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">      };</span><br/><br/><span class="hl-14">      </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">avatarVideoManager</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> </span><span class="hl-4">AvatarVideoManager</span><span class="hl-14">.</span><span class="hl-0">getInstance</span><span class="hl-14">(</span><span class="hl-4">options</span><span class="hl-14">);</span><br/><br/><span class="hl-14">      </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">selectedAvatar</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">name:</span><span class="hl-14"> </span><span class="hl-2">&#39;defaultAvatar&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">        </span><span class="hl-4">avatarId:</span><span class="hl-14"> </span><span class="hl-2">&#39;avatar-123&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">      };</span><br/><br/><span class="hl-14">      </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">user</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">name:</span><span class="hl-14"> </span><span class="hl-2">&#39;John Doe&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">        </span><span class="hl-4">jobRole:</span><span class="hl-14"> </span><span class="hl-2">&#39;Developer&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">      };</span><br/><br/><span class="hl-14">      </span><span class="hl-5">const</span><span class="hl-14"> </span><span class="hl-6">callbacks</span><span class="hl-14"> </span><span class="hl-1">=</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-0">onLoadingChange</span><span class="hl-4">:</span><span class="hl-14"> </span><span class="hl-4">isLoading</span><span class="hl-14"> </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">          </span><span class="hl-3">if</span><span class="hl-14"> (</span><span class="hl-4">isLoading</span><span class="hl-14">) {</span><br/><span class="hl-14">            </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Loading avatar and voice agent...&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">          } </span><span class="hl-3">else</span><span class="hl-14"> {</span><br/><span class="hl-14">            </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Avatar and voice agent are ready.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">          }</span><br/><span class="hl-14">        },</span><br/><span class="hl-14">        </span><span class="hl-0">onError</span><span class="hl-4">:</span><span class="hl-14"> </span><span class="hl-4">error</span><span class="hl-14"> </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">          </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">error</span><span class="hl-14">(</span><span class="hl-2">&#39;An error occurred:&#39;</span><span class="hl-14">, </span><span class="hl-4">error</span><span class="hl-14">.</span><span class="hl-4">message</span><span class="hl-14">);</span><br/><span class="hl-14">        },</span><br/><span class="hl-14">        </span><span class="hl-0">onAgentStart</span><span class="hl-4">:</span><span class="hl-14"> () </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">          </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Agent has started.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">        },</span><br/><span class="hl-14">        </span><span class="hl-0">onAgentEnd</span><span class="hl-4">:</span><span class="hl-14"> () </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">          </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Agent has ended.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">        },</span><br/><span class="hl-14">      };</span><br/><br/><span class="hl-14">      </span><span class="hl-4">avatarVideoManager</span><br/><span class="hl-14">        .</span><span class="hl-0">initialize</span><span class="hl-14">(</span><br/><span class="hl-14">          {</span><br/><span class="hl-14">            </span><span class="hl-4">containerId:</span><span class="hl-14"> </span><span class="hl-2">&#39;video-container&#39;</span><span class="hl-14">,</span><br/><span class="hl-14">            </span><span class="hl-4">avatarName:</span><span class="hl-14"> </span><span class="hl-4">selectedAvatar</span><span class="hl-14">.</span><span class="hl-4">name</span><span class="hl-14">,</span><br/><span class="hl-14">            </span><span class="hl-4">avatarId:</span><span class="hl-14"> </span><span class="hl-4">selectedAvatar</span><span class="hl-14">.</span><span class="hl-4">avatarId</span><span class="hl-14">,</span><br/><span class="hl-14">            </span><span class="hl-4">params:</span><span class="hl-14"> {</span><br/><span class="hl-14">              </span><span class="hl-4">user_name:</span><span class="hl-14"> </span><span class="hl-4">user</span><span class="hl-14">.</span><span class="hl-4">name</span><span class="hl-14">,</span><br/><span class="hl-14">              </span><span class="hl-4">position:</span><span class="hl-14"> </span><span class="hl-4">user</span><span class="hl-14">.</span><span class="hl-4">jobRole</span><span class="hl-14">,</span><br/><span class="hl-14">            },</span><br/><span class="hl-14">          },</span><br/><span class="hl-14">          </span><span class="hl-4">callbacks</span><br/><span class="hl-14">        )</span><br/><span class="hl-14">        .</span><span class="hl-0">then</span><span class="hl-14">(() </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">          </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">log</span><span class="hl-14">(</span><span class="hl-2">&#39;Initialization successful.&#39;</span><span class="hl-14">);</span><br/><span class="hl-14">        })</span><br/><span class="hl-14">        .</span><span class="hl-0">catch</span><span class="hl-14">(</span><span class="hl-4">error</span><span class="hl-14"> </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">          </span><span class="hl-4">console</span><span class="hl-14">.</span><span class="hl-0">error</span><span class="hl-14">(</span><span class="hl-2">&#39;Initialization failed:&#39;</span><span class="hl-14">, </span><span class="hl-4">error</span><span class="hl-14">.</span><span class="hl-4">message</span><span class="hl-14">);</span><br/><span class="hl-14">        });</span><br/><br/><span class="hl-14">      </span><span class="hl-4">window</span><span class="hl-14">.</span><span class="hl-0">addEventListener</span><span class="hl-14">(</span><span class="hl-2">&#39;beforeunload&#39;</span><span class="hl-14">, () </span><span class="hl-5">=&gt;</span><span class="hl-14"> {</span><br/><span class="hl-14">        </span><span class="hl-4">avatarVideoManager</span><span class="hl-14">.</span><span class="hl-0">endCall</span><span class="hl-14">();</span><br/><span class="hl-14">      });</span><br/><span class="hl-14">    </span><span class="hl-10">&lt;/</span><span class="hl-11">script</span><span class="hl-10">&gt;</span><br/><span class="hl-1">  </span><span class="hl-10">&lt;/</span><span class="hl-11">body</span><span class="hl-10">&gt;</span><br/><span class="hl-10">&lt;/</span><span class="hl-11">html</span><span class="hl-10">&gt;</span>
 </code><button type="button">Copy</button></pre>
 
           <a
@@ -592,7 +551,21 @@ onBeforeUnmount(() => {
             The SDK is organized into modular components to ensure scalability and maintainability. Below is a breakdown
             of the structure:
           </p>
-          <pre><code class="bash"><span class="hl-0">src/</span><br/><span class="hl-0">├──</span><span class="hl-1"> </span><span class="hl-2">index.ts</span><span class="hl-1">                  </span><span class="hl-7"># Entry point of the SDK</span><br/><span class="hl-0">├──</span><span class="hl-1"> </span><span class="hl-2">AvatarVideoManager.ts</span><span class="hl-1">     </span><span class="hl-7"># Main class that orchestrates all components</span><br/><span class="hl-0">├──</span><span class="hl-1"> </span><span class="hl-2">video/</span><br/><span class="hl-0">│</span><span class="hl-1">   </span><span class="hl-2">└──</span><span class="hl-1"> </span><span class="hl-2">VideoManager.ts</span><span class="hl-1">       </span><span class="hl-7"># Handles video-related functionality</span><br/><span class="hl-0">├──</span><span class="hl-1"> </span><span class="hl-2">voiceAgent/</span><br/><span class="hl-0">│</span><span class="hl-1">   </span><span class="hl-2">└──</span><span class="hl-1"> </span><span class="hl-2">VoiceAgentManager.ts</span><span class="hl-1">  </span><span class="hl-7"># Manages interactions with the Hamsa Voice Agent SDK</span><br/><span class="hl-0">├──</span><span class="hl-1"> </span><span class="hl-2">events/</span><br/><span class="hl-0">│</span><span class="hl-1">   </span><span class="hl-2">└──</span><span class="hl-1"> </span><span class="hl-2">EventManager.ts</span><span class="hl-1">       </span><span class="hl-7"># Coordinates events between video and voice agent</span><br/><span class="hl-0">├──</span><span class="hl-1"> </span><span class="hl-2">state/</span><br/><span class="hl-0">│</span><span class="hl-1">   </span><span class="hl-2">└──</span><span class="hl-1"> </span><span class="hl-2">StateManager.ts</span><span class="hl-1">       </span><span class="hl-7"># Manages the current state of the application</span><br/><span class="hl-0">├──</span><span class="hl-1"> </span><span class="hl-2">utils/</span><br/><span class="hl-0">│</span><span class="hl-1">   </span><span class="hl-2">├──</span><span class="hl-1"> </span><span class="hl-2">Logger.ts</span><span class="hl-1">             </span><span class="hl-7"># Logging utility</span><br/><span class="hl-0">│</span><span class="hl-1">   </span><span class="hl-2">└──</span><span class="hl-1"> </span><span class="hl-2">Types.ts</span><span class="hl-1">              </span><span class="hl-7"># Type definitions and interfaces</span><br/><span class="hl-0">├──</span><span class="hl-1"> </span><span class="hl-2">avatarsData.ts</span><span class="hl-1">            </span><span class="hl-7"># Avatar configurations (video paths and sections)</span>
+          <pre><code class="plaintext">src/
+├── index.ts                  # Entry point of the SDK
+├── AvatarVideoManager.ts     # Main class that orchestrates all components
+├── video/
+│   └── VideoManager.ts       # Handles video-related functionality
+├── voiceAgent/
+│   └── VoiceAgentManager.ts  # Manages interactions with the Hamsa Voice Agent SDK
+├── events/
+│   └── EventManager.ts       # Coordinates events between video and voice agent
+├── state/
+│   └── StateManager.ts       # Manages the current state of the application
+├── utils/
+│   ├── Logger.ts             # Logging utility
+│   └── Types.ts              # Type definitions and interfaces
+├── avatarsData.ts            # Avatar configurations (video paths and sections)
 </code><button type="button">Copy</button></pre>
 
           <a
@@ -609,24 +582,37 @@ onBeforeUnmount(() => {
           </h3>
           <ul>
             <li>
-              <strong>AvatarVideoManager</strong>: The main class that clients interact with. It initializes and
-              coordinates all other components.
-            </li>
-            <li><strong>VideoManager</strong>: Handles video setup, playback, and section management.</li>
-            <li><strong>VoiceAgentManager</strong>: Manages the voice agent's lifecycle and interactions.</li>
-            <li>
-              <strong>EventManager</strong>: Subscribes to voice agent events and updates the video playback
-              accordingly.
+              <p><strong>AvatarVideoManager</strong>: The main class that clients interact with.</p>
             </li>
             <li>
-              <strong>StateManager</strong>: Keeps track of the current agent status and the current video section being
-              played.
+              <p><strong>VideoManager</strong>: Handles video setup, playback, and section management.</p>
             </li>
-            <li><strong>Logger</strong>: Provides a consistent logging mechanism across all modules.</li>
-            <li><strong>Types</strong>: Contains all the type definitions and interfaces used throughout the SDK.</li>
             <li>
-              <strong>avatarsData.ts</strong>: Stores configurations for different avatars, including video paths and
-              speaking/listening sections.
+              <p><strong>VoiceAgentManager</strong>: Manages the voice agent’s lifecycle and interactions.</p>
+            </li>
+            <li>
+              <p>
+                <strong>EventManager</strong>: Subscribes to voice agent events and updates the video playback
+                accordingly.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>StateManager</strong>: Keeps track of the current agent status and the current video section
+                being played.
+              </p>
+            </li>
+            <li>
+              <p><strong>Logger</strong>: Provides a consistent logging mechanism across all modules.</p>
+            </li>
+            <li>
+              <p><strong>Types</strong>: Contains all the type definitions and interfaces used throughout the SDK.</p>
+            </li>
+            <li>
+              <p>
+                <strong>avatarsData.ts</strong>: Stores configurations for different avatars, including video paths and
+                sections.
+              </p>
             </li>
           </ul>
           <a
@@ -642,8 +628,8 @@ onBeforeUnmount(() => {
             ></a>
           </h2>
           <p>
-            The project includes several yarn scripts to help with development, testing, and building. Here's a list of
-            the available commands and what they do:
+            The project includes several yarn scripts to help with development, testing, and building. Below is a list
+            of available commands:
           </p>
           <a
             id="md:build-and-development"
@@ -659,18 +645,10 @@ onBeforeUnmount(() => {
           </h3>
           <ul>
             <li>
-              <strong><code>yarn build</code></strong
-              >: Builds the SDK using Rollup. Outputs the bundled files to the <code>dist</code> directory.
+              <code>yarn build</code>: Builds the SDK using Rollup. Outputs the bundled files to the dist directory.
             </li>
-            <li>
-              <strong><code>yarn dev</code></strong
-              >: Runs Rollup in watch mode. Automatically rebuilds the SDK when changes are made. Useful for
-              development.
-            </li>
-            <li>
-              <strong><code>yarn start</code></strong
-              >: Alias for <code>yarn dev</code>.
-            </li>
+            <li><code>yarn dev</code>: Runs Rollup in watch mode. Useful for development.</li>
+            <li><code>yarn start</code>: Alias for <code>yarn dev</code>.</li>
           </ul>
           <a
             id="md:linting-and-formatting"
@@ -685,30 +663,12 @@ onBeforeUnmount(() => {
             ></a>
           </h3>
           <ul>
-            <li>
-              <strong><code>yarn check</code></strong
-              >: Runs both format and lint checks.
-            </li>
-            <li>
-              <strong><code>yarn check:format</code></strong
-              >: Checks the code formatting using Prettier.
-            </li>
-            <li>
-              <strong><code>yarn check:lint</code></strong
-              >: Lints the code using ESLint.
-            </li>
-            <li>
-              <strong><code>yarn fix</code></strong
-              >: Fixes formatting and linting issues.
-            </li>
-            <li>
-              <strong><code>yarn fix:format</code></strong
-              >: Fixes code formatting issues.
-            </li>
-            <li>
-              <strong><code>yarn fix:lint</code></strong
-              >: Fixes linting issues.
-            </li>
+            <li><code>yarn check</code>: Runs both format and lint checks.</li>
+            <li><code>yarn check:format</code>: Checks code formatting using Prettier.</li>
+            <li><code>yarn check:lint</code>: Lints the code using ESLint.</li>
+            <li><code>yarn fix</code>: Fixes formatting and linting issues.</li>
+            <li><code>yarn fix:format</code>: Fixes code formatting issues.</li>
+            <li><code>yarn fix:lint</code>: Fixes linting issues.</li>
           </ul>
           <a
             id="md:testing"
@@ -723,22 +683,10 @@ onBeforeUnmount(() => {
             ></a>
           </h3>
           <ul>
-            <li>
-              <strong><code>yarn test</code></strong
-              >: Runs all tests, including type checking and unit tests with coverage.
-            </li>
-            <li>
-              <strong><code>yarn test:types</code></strong
-              >: Checks for TypeScript type errors.
-            </li>
-            <li>
-              <strong><code>yarn test:unit</code></strong
-              >: Runs unit tests using Vitest.
-            </li>
-            <li>
-              <strong><code>yarn test:unit:coverage</code></strong
-              >: Runs unit tests with coverage reporting.
-            </li>
+            <li><code>yarn test</code>: Runs all tests, including type checking and unit tests with coverage.</li>
+            <li><code>yarn test:types</code>: Checks for TypeScript type errors.</li>
+            <li><code>yarn test:unit</code>: Runs unit tests using Vitest.</li>
+            <li><code>yarn test:unit:coverage</code>: Runs unit tests with coverage reporting.</li>
           </ul>
           <a
             id="md:documentation"
@@ -753,14 +701,8 @@ onBeforeUnmount(() => {
             ></a>
           </h3>
           <ul>
-            <li>
-              <strong><code>yarn docs</code></strong
-              >: Generates documentation using TypeDoc.
-            </li>
-            <li>
-              <strong><code>yarn docs:build</code></strong
-              >: Builds the documentation.
-            </li>
+            <li><code>yarn docs</code>: Generates documentation using TypeDoc.</li>
+            <li><code>yarn docs:build</code>: Builds the documentation.</li>
           </ul>
           <a
             id="md:cleaning"
@@ -776,8 +718,7 @@ onBeforeUnmount(() => {
           </h3>
           <ul>
             <li>
-              <strong><code>yarn clean</code></strong
-              >: Removes generated files (coverage reports, <code>dist</code> directory, and documentation).
+              <code>yarn clean</code>: Removes generated files (coverage reports, dist directory, and documentation).
             </li>
           </ul>
           <a
@@ -793,48 +734,14 @@ onBeforeUnmount(() => {
             ></a>
           </h3>
           <ul>
+            <li><code>yarn dist</code>: Cleans, builds the project, and checks for type errors.</li>
             <li>
-              <strong><code>yarn dist</code></strong
-              >: Cleans, builds the project, and checks for type errors.
+              <code>yarn release:major</code>: Generates a changelog, builds documentation, and bumps the version
+              (major).
             </li>
-            <li>
-              <strong><code>yarn release:major</code></strong
-              >: Generates a changelog, builds documentation, commits changes, and bumps the version (major).
-            </li>
-            <li>
-              <strong><code>yarn release:minor</code></strong
-              >: Similar to above, but bumps the version (minor).
-            </li>
-            <li>
-              <strong><code>yarn release:patch</code></strong
-              >: Similar to above, but bumps the version (patch).
-            </li>
-            <li>
-              <strong><code>yarn release:revert</code></strong
-              >: Unpublishes the last version from npm (use with caution).
-            </li>
-          </ul>
-          <a
-            id="md:others"
-            class="tsd-anchor"
-          ></a>
-          <h3 class="tsd-anchor-link">
-            Others<a
-              href="#md:others"
-              aria-label="Permalink"
-              class="tsd-anchor-icon"
-              ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
-            ></a>
-          </h3>
-          <ul>
-            <li>
-              <strong><code>yarn commit</code></strong
-              >: Fixes code issues and commits changes.
-            </li>
-            <li>
-              <strong><code>yarn deploy</code></strong
-              >: Placeholder for deployment script.
-            </li>
+            <li><code>yarn release:minor</code>: Similar to above, but bumps the version (minor).</li>
+            <li><code>yarn release:patch</code>: Similar to above, but bumps the version (patch).</li>
+            <li><code>yarn release:revert</code>: Unpublishes the last version from npm.</li>
           </ul>
           <a
             id="md:contributing"
@@ -848,7 +755,7 @@ onBeforeUnmount(() => {
               ><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg
             ></a>
           </h2>
-          <p>We welcome contributions to the Hamsa Avatars SDK! Here's how you can get started:</p>
+          <p>We welcome contributions to the Hamsa Avatars SDK! Here’s how you can get started:</p>
           <a
             id="md:getting-started"
             class="tsd-anchor"
@@ -870,14 +777,14 @@ onBeforeUnmount(() => {
             </li>
             <li>
               <p><strong>Clone the Repository</strong>: Clone your forked repository to your local machine.</p>
-              <pre><code class="bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">clone</span><span class="hl-1"> </span><span class="hl-2">https://github.com/hamsa-ai/@hamsa-ai/hamsa-avatars-sdk.git</span>
+              <pre><code class="bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">clone</span><span class="hl-1"> </span><span class="hl-2">https://github.com/hamsa-ai/@hamsa-ai/avatars-sdk.git</span>
 </code><button type="button">Copy</button></pre>
             </li>
             <li>
               <p>
                 <strong>Install Dependencies</strong>: Navigate to the project directory and install the dependencies.
               </p>
-              <pre><code class="bash"><span class="hl-0">cd</span><span class="hl-1"> </span><span class="hl-2">@hamsa-ai/hamsa-avatars-sdk</span><br/><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">install</span>
+              <pre><code class="bash"><span class="hl-0">cd</span><span class="hl-1"> </span><span class="hl-2">@hamsa-ai/avatars-sdk</span><br/><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">install</span>
 </code><button type="button">Copy</button></pre>
             </li>
           </ol>
@@ -894,44 +801,46 @@ onBeforeUnmount(() => {
             ></a>
           </h3>
           <ul>
-            <li>
-              <p><strong>Create a Branch</strong>: Create a new branch for your feature or bugfix.</p>
-              <pre><code class="bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">checkout</span><span class="hl-1"> </span><span class="hl-5">-b</span><span class="hl-1"> </span><span class="hl-2">feature/my-new-feature</span>
+            <li><strong>Create a Branch</strong>: Create a new branch for your feature or bugfix.</li>
+          </ul>
+          <pre><code class="bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">checkout</span><span class="hl-1"> </span><span class="hl-5">-b</span><span class="hl-1"> </span><span class="hl-2">feature/my-new-feature</span>
 </code><button type="button">Copy</button></pre>
-            </li>
-            <li>
-              <p><strong>Make Changes</strong>: Implement your changes in the codebase.</p>
-            </li>
-            <li>
-              <p><strong>Run Tests</strong>: Ensure that all tests pass.</p>
-              <pre><code class="bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">test</span>
+
+          <ul>
+            <li><strong>Make Changes</strong>: Implement your changes in the codebase.</li>
+            <li><strong>Run Tests</strong>: Ensure all tests pass.</li>
+          </ul>
+          <pre><code class="bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">test</span>
 </code><button type="button">Copy</button></pre>
-            </li>
-            <li>
-              <p><strong>Build the Project</strong>: Build the project to ensure there are no build errors.</p>
-              <pre><code class="bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">build</span>
+
+          <ul>
+            <li><strong>Build the Project</strong>: Ensure there are no build errors.</li>
+          </ul>
+          <pre><code class="bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">build</span>
 </code><button type="button">Copy</button></pre>
-            </li>
-            <li>
-              <p><strong>Start Development Mode</strong>: Run the project in development mode to watch for changes.</p>
-              <pre><code class="bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">dev</span>
+
+          <ul>
+            <li><strong>Start Development Mode</strong>: Watch for changes during development.</li>
+          </ul>
+          <pre><code class="bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">dev</span>
 </code><button type="button">Copy</button></pre>
-            </li>
-            <li>
-              <p><strong>Commit Changes</strong>: Commit your changes with a meaningful commit message.</p>
-              <pre><code class="bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">.</span><br/><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">commit</span><span class="hl-1"> </span><span class="hl-5">-m</span><span class="hl-1"> </span><span class="hl-2">&quot;feat: Add new feature&quot;</span>
+
+          <ul>
+            <li><strong>Commit Changes</strong>: Commit your changes with a meaningful message.</li>
+          </ul>
+          <pre><code class="bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">.</span><br/><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">commit</span><span class="hl-1"> </span><span class="hl-5">-m</span><span class="hl-1"> </span><span class="hl-2">&quot;feat: Add new feature&quot;</span>
 </code><button type="button">Copy</button></pre>
-            </li>
-            <li>
-              <p><strong>Push to GitHub</strong>: Push your branch to your forked repository.</p>
-              <pre><code class="bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">push</span><span class="hl-1"> </span><span class="hl-2">origin</span><span class="hl-1"> </span><span class="hl-2">feature/my-new-feature</span>
+
+          <ul>
+            <li><strong>Push to GitHub</strong>: Push your branch to your forked repository.</li>
+          </ul>
+          <pre><code class="bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">push</span><span class="hl-1"> </span><span class="hl-2">origin</span><span class="hl-1"> </span><span class="hl-2">feature/my-new-feature</span>
 </code><button type="button">Copy</button></pre>
-            </li>
+
+          <ul>
             <li>
-              <p>
-                <strong>Create a Pull Request</strong>: Go to the original repository and create a pull request from
-                your branch.
-              </p>
+              <strong>Create a Pull Request</strong>: Go to the original repository and create a pull request from your
+              branch.
             </li>
           </ul>
           <a
@@ -984,7 +893,7 @@ onBeforeUnmount(() => {
           <p>If you encounter any issues or have suggestions, please open an issue on GitHub:</p>
           <p>
             <a
-              href="https://github.com/hamsa-ai/@hamsa-ai/hamsa-avatars-sdk/issues"
+              href="https://github.com/hamsa-ai/@hamsa-ai/avatars-sdk/issues"
               target="_blank"
               class="external"
               >GitHub Issues</a
@@ -1009,10 +918,10 @@ onBeforeUnmount(() => {
 </code><button type="button">Copy</button></pre>
             </li>
             <li>
-              <p>Submit your pull request, and make sure to fill out the provided template.</p>
+              <p>Submit your pull request and fill out the provided template.</p>
             </li>
             <li>
-              <p>Wait for the maintainers to review your PR. Be prepared to make changes if requested.</p>
+              <p>Wait for maintainers to review your PR. Be prepared to make changes if requested.</p>
             </li>
           </ol>
           <a
@@ -1033,8 +942,8 @@ onBeforeUnmount(() => {
           </p>
           <hr />
           <p>
-            Thank you for using the Hamsa Avatars SDK! If you have any questions or need further assistance, please feel
-            free to reach out at <a href="mailto:support@hamsa.ai">support@hamsa.ai</a>.
+            Thank you for using the Hamsa Avatars SDK! If you have any questions, please reach out at
+            <a href="mailto:support@hamsa.ai">support@hamsa.ai</a>.
           </p>
         </div>
       </div>
@@ -1217,10 +1126,11 @@ onBeforeUnmount(() => {
                     <li>
                       <ul>
                         <li>
-                          <a href="#md:startcallparams-avatarvideomanagerstartcalloptions-promise"
+                          <a href="#md:initializeparams-avatarvideomanagerstartcalloptions-callbacks-partial-promise"
                             ><span
-                              >start<wbr />Call(params:
-                              <wbr />Avatar<wbr />Video<wbr />Manager<wbr />Start<wbr />Call<wbr />Options):
+                              >initialize(params:
+                              <wbr />Avatar<wbr />Video<wbr />Manager<wbr />Start<wbr />Call<wbr />Options, callbacks?:
+                              <wbr />Partial&lt;<wbr />Avatar<wbr />Video<wbr />Manager<wbr />Events&gt;):
                               <wbr />Promise&lt;void&gt;</span
                             ></a
                           >
@@ -1241,33 +1151,41 @@ onBeforeUnmount(() => {
                             ><span>set<wbr />Volume(volume: number): void</span></a
                           >
                         </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <a href="#md:code-examples"
-                        ><span>Code <wbr />Examples</span></a
-                      >
-                    </li>
-                    <li>
-                      <ul>
                         <li>
-                          <a href="#md:react"><span>React</span></a>
-                        </li>
-                        <li>
-                          <a href="#md:vuejs"><span>Vue.js</span></a>
-                        </li>
-                        <li>
-                          <a href="#md:angular"><span>Angular</span></a>
-                        </li>
-                        <li>
-                          <a href="#md:svelte"><span>Svelte</span></a>
-                        </li>
-                        <li>
-                          <a href="#md:vanilla-javascript"
-                            ><span>Vanilla <wbr />Java<wbr />Script</span></a
+                          <a href="#md:resetinstance-promise"
+                            ><span>reset<wbr />Instance(): <wbr />Promise&lt;void&gt;</span></a
                           >
                         </li>
                       </ul>
+                    </li>
+                    <li>
+                      <a href="#md:events"><span>Events</span></a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#md:code-examples"
+                    ><span>Code <wbr />Examples</span></a
+                  >
+                </li>
+                <li>
+                  <ul>
+                    <li>
+                      <a href="#md:react"><span>React</span></a>
+                    </li>
+                    <li>
+                      <a href="#md:vuejs"><span>Vue.js</span></a>
+                    </li>
+                    <li>
+                      <a href="#md:angular"><span>Angular</span></a>
+                    </li>
+                    <li>
+                      <a href="#md:svelte"><span>Svelte</span></a>
+                    </li>
+                    <li>
+                      <a href="#md:vanilla-javascript"
+                        ><span>Vanilla <wbr />Java<wbr />Script</span></a
+                      >
                     </li>
                   </ul>
                 </li>
@@ -1313,9 +1231,6 @@ onBeforeUnmount(() => {
                       <a href="#md:release-and-deployment"
                         ><span>Release and <wbr />Deployment</span></a
                       >
-                    </li>
-                    <li>
-                      <a href="#md:others"><span>Others</span></a>
                     </li>
                   </ul>
                 </li>
@@ -1368,7 +1283,7 @@ onBeforeUnmount(() => {
                 viewBox="0 0 24 24"
               >
                 <use href="assets/icons.svg#icon-1"></use></svg
-              ><span>@hamsa-ai/hamsa-avatars-sdk</span></a
+              ><span>@hamsa-ai/avatars-sdk</span></a
             >
             <ul
               class="tsd-small-nested-navigation"
