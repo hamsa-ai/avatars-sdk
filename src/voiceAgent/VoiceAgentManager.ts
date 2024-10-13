@@ -38,8 +38,6 @@ export class VoiceAgentManager {
     try {
       this.voiceAgent = new HamsaVoiceAgent(this.apiKey);
 
-      // Subscribe to events if needed
-
       await this.voiceAgent.start({agentId, params});
       this.agentStarted = true;
       this.logger.info('Voice agent started successfully.');
@@ -132,6 +130,28 @@ export class VoiceAgentManager {
       this.voiceAgent.setVolume(volume);
     } else {
       this.logger.warn('Voice agent is not available.');
+    }
+  }
+
+  /**
+   * Retrieves job details from the Hamsa Voice Agent.
+   * @returns {Promise<Object>} The job details object.
+   */
+  public async getJobDetails(): Promise<any> {
+    this.logger.trace('Fetching job details.');
+
+    if (!this.voiceAgent) {
+      this.logger.error('Cannot fetch job details: Voice agent is not started.');
+      throw new Error('Voice agent is not started.');
+    }
+
+    try {
+      const jobDetails = await this.voiceAgent.getJobDetails();
+      this.logger.info('Job details retrieved successfully.', {jobDetails});
+      return jobDetails;
+    } catch (error: any) {
+      this.logger.error('Failed to fetch job details.', {error: error.message || error});
+      throw error;
     }
   }
 
