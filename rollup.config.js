@@ -1,8 +1,8 @@
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import typescript from '@rollup/plugin-typescript';
+const resolve = require('@rollup/plugin-node-resolve').default;
+const commonjs = require('@rollup/plugin-commonjs').default;
+const typescript = require('@rollup/plugin-typescript').default;
 
-export default {
+module.exports = {
   input: 'src/index.ts',
   output: [
     {
@@ -11,7 +11,7 @@ export default {
       sourcemap: true,
     },
     {
-      file: 'dist/index.esm.js',
+      file: 'dist/index.mjs.js',
       format: 'esm',
       sourcemap: true,
     },
