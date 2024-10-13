@@ -1,1 +1,16 @@
 rollup.config.ts
+*.md
+*.env
+*hot-update.js*
+.cache
+.DS_Store
+.idea/
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+config.json
+coverage/
+dist/
+lerna-debug.log
+node_modules/
+yarn-error.log
