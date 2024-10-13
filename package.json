@@ -1,5 +1,5 @@
 {
-  "name": "@hamsa-ai/hamsa-avatars-sdk",
+  "name": "@hamsa-ai/avatars-sdk",
   "version": "0.0.0",
   "private": false,
   "description": "Hamsa AI - Avatars Javascript SDK",
@@ -14,9 +14,9 @@
     "ai",
     "avatars"
   ],
-  "homepage": "https://github.com/hamsa-ai/hamsa-avatars-sdk#readme",
+  "homepage": "https://github.com/hamsa-ai/avatars-sdk#readme",
   "bugs": {
-    "url": "https://github.com/hamsa-ai/hamsa-avatars-sdk/issues"
+    "url": "https://github.com/hamsa-ai/avatars-sdk/issues"
   },
   "license": "MIT",
   "author": "Hamsa AI Inc.",
@@ -29,7 +29,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hamsa-ai/hamsa-avatars-sdk.git"
+    "url": "git+https://github.com/hamsa-ai/avatars-sdk.git"
   },
   "type": "module",
   "scripts": {
@@ -53,7 +53,7 @@
     "release:major": "generate-changelog -M -x \"chore,test\" && npm run docs && npm run commit && npm version major",
     "release:minor": "generate-changelog -m -x \"chore,test\" && npm run docs && npm run commit && npm version minor",
     "release:patch": "generate-changelog -p -x \"chore,test\" && npm run docs && npm run commit && npm version patch",
-    "release:revert": "npm unpublish hamsa-avatars-sdk",
+    "release:revert": "npm unpublish avatars-sdk",
     "test": "npm run test:types && npm run test:unit:coverage",
     "test:types": "tsc --noEmit",
     "test:unit": "vitest run --passWithNoTests",

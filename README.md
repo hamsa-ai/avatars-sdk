@@ -38,13 +38,13 @@ The **Hamsa Avatars SDK** is a TypeScript library that provides an easy way to i
 Install the SDK via yarn:
 
 ```bash
-yarn add @hamsa-ai/hamsa-avatars-sdk
+yarn add @hamsa-ai/avatars-sdk
 ```
 
 Or via npm:
 
 ```bash
-npm install @hamsa-ai/hamsa-avatars-sdk
+npm install @hamsa-ai/avatars-sdk
 ```
 
 ## Usage
@@ -54,7 +54,7 @@ npm install @hamsa-ai/hamsa-avatars-sdk
 First, import the `AvatarVideoManager` from the SDK:
 
 ```typescript
-import {AvatarVideoManager} from '@hamsa-ai/hamsa-avatars-sdk';
+import {AvatarVideoManager} from '@hamsa-ai/avatars-sdk';
 ```
 
 Create a singleton instance of `AvatarVideoManager` with the required options and initialize it with your parameters and optional event callbacks:
@@ -239,7 +239,7 @@ avatarVideoManager.on('onAgentEnd', () => {
 ```typescript
 
 import React, { useEffect } from "react";
-import { AvatarVideoManager } from '@hamsa-ai/hamsa-avatars-sdk';
+import { AvatarVideoManager } from '@hamsa-ai/avatars-sdk';
 
 const apiKey = process.env.REACT_APP_HAMSA_API_KEY as string;
 
@@ -327,7 +327,7 @@ export default LiveDemoPage;
   lang="ts"
 >
   import {onMounted, onBeforeUnmount} from 'vue';
-  import {AvatarVideoManager} from '@hamsa-ai/hamsa-avatars-sdk';
+  import {AvatarVideoManager} from '@hamsa-ai/avatars-sdk';
 
   const apiKey = import.meta.env.VITE_APP_HAMSA_API_KEY as string;
 
@@ -400,7 +400,7 @@ export default LiveDemoPage;
 
 ```typescript
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {AvatarVideoManager} from '@hamsa-ai/hamsa-avatars-sdk';
+import {AvatarVideoManager} from '@hamsa-ai/avatars-sdk';
 
 const apiKey = 'YOUR_API_KEY';
 
@@ -495,7 +495,7 @@ export class LiveDemoComponent implements OnInit, OnDestroy {
 ```html
 <script lang="ts">
   import {onMount, onDestroy} from 'svelte';
-  import {AvatarVideoManager} from '@hamsa-ai/hamsa-avatars-sdk';
+  import {AvatarVideoManager} from '@hamsa-ai/avatars-sdk';
 
   const apiKey = import.meta.env.VITE_APP_HAMSA_API_KEY as string;
 
@@ -584,7 +584,7 @@ export class LiveDemoComponent implements OnInit, OnDestroy {
 
     <!-- Include the SDK -->
     <script type="module">
-      import {AvatarVideoManager} from '@hamsa-ai/hamsa-avatars-sdk';
+      import {AvatarVideoManager} from '@hamsa-ai/avatars-sdk';
 
       const options = {
         apiKey: 'your-api-key', // Replace with your actual API key
@@ -739,13 +739,13 @@ We welcome contributions to the Hamsa Avatars SDK! Here’s how you can get star
 2. **Clone the Repository**: Clone your forked repository to your local machine.
 
    ```bash
-   git clone https://github.com/hamsa-ai/@hamsa-ai/hamsa-avatars-sdk.git
+   git clone https://github.com/hamsa-ai/@hamsa-ai/avatars-sdk.git
    ```
 
 3. **Install Dependencies**: Navigate to the project directory and install the dependencies.
 
    ```bash
-   cd @hamsa-ai/hamsa-avatars-sdk
+   cd @hamsa-ai/avatars-sdk
    yarn install
    ```
 
@@ -803,7 +803,7 @@ git push origin feature/my-new-feature
 
 If you encounter any issues or have suggestions, please open an issue on GitHub:
 
-[GitHub Issues](https://github.com/hamsa-ai/@hamsa-ai/hamsa-avatars-sdk/issues)
+[GitHub Issues](https://github.com/hamsa-ai/@hamsa-ai/avatars-sdk/issues)
 
 ### Pull Request Process
 
