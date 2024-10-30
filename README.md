@@ -31,6 +31,7 @@ The **Hamsa Avatars SDK** is a TypeScript library that provides an easy way to i
 - **TypeScript Support**: Fully typed for better development experience and reliability.
 - **Singleton Pattern**: Ensures only one instance of the manager runs, preventing conflicts in multi-component environments.
 - **Reset Singleton Instance**: Allows resetting the Singleton instance for scenarios like testing or re-initialization.
+- **Audio Stream Events**: Emits events for both remote and local audio streams, enhancing audio management capabilities.
 - **Framework-Agnostic**: Easily integrates with major JavaScript frontend frameworks and Vanilla JS.
 
 ## Installation
@@ -89,6 +90,14 @@ const callbacks = {
     console.log('Voice agent has ended.');
     // Additional logic when the agent ends
   },
+  remoteAudioStreamAvailable: (stream: MediaStream) => {
+    console.log('Remote audio stream is available:', stream);
+    // Handle remote audio stream (e.g., play audio)
+  },
+  localAudioStreamAvailable: (stream: MediaStream) => {
+    console.log('Local audio stream is available:', stream);
+    // Handle local audio stream (e.g., visualize audio)
+  },
 };
 
 // Initialize the `AvatarVideoManager`
@@ -135,13 +144,19 @@ await avatarVideoManager.initialize(
       /* Handle loading state */
     },
     onError: error => {
-      /* Handle errors */
+      /* Handle error */
     },
     onAgentStart: () => {
       /* Handle agent start */
     },
     onAgentEnd: () => {
       /* Handle agent end */
+    },
+    remoteAudioStreamAvailable: (stream: MediaStream) => {
+      /* Handle remote audio stream */
+    },
+    localAudioStreamAvailable: (stream: MediaStream) => {
+      /* Handle local audio stream */
     },
   }
 );
@@ -187,57 +202,104 @@ Resets the Singleton instance of `AvatarVideoManager`. This is useful for scenar
 await AvatarVideoManager.resetInstance();
 ```
 
+#### `getRemoteAudioStream(): MediaStream | null`
+
+Retrieves the remote audio `MediaStream`.
+
+```typescript
+const remoteStream = avatarVideoManager.getRemoteAudioStream();
+if (remoteStream) {
+  const audio = new Audio();
+  audio.srcObject = remoteStream;
+  audio.play();
+}
+```
+
+#### `getLocalAudioStream(): MediaStream | null`
+
+Retrieves the local audio `MediaStream`.
+
+```typescript
+const localStream = avatarVideoManager.getLocalAudioStream();
+// Use the localStream as needed, e.g., for visualization
+```
+
 ### Events
 
 The `AvatarVideoManager` emits several events to help developers respond to different states and actions within the SDK.
 
 - **`onLoadingChange`**: Emitted when the loading state changes.
-  - Payload: boolean indicating if loading is in progress (`true`) or has completed (`false`).
 
-```typescript
-avatarVideoManager.on('onLoadingChange', isLoading => {
-  if (isLoading) {
-    // Show loading indicator
-  } else {
-    // Hide loading indicator
-  }
-});
-```
+  - **Payload**: `boolean` indicating if loading is in progress (`true`) or has completed (`false`).
+
+  ```typescript
+  avatarVideoManager.on('onLoadingChange', isLoading => {
+    if (isLoading) {
+      // Show loading indicator
+    } else {
+      // Hide loading indicator
+    }
+  });
+  ```
 
 - **`onError`**: Emitted when an error occurs.
-  - Payload: `Error` object containing error details.
 
-```typescript
-avatarVideoManager.on('onError', error => {
-  console.error('An error occurred:', error.message);
-  // Handle error (e.g., display message to user)
-});
-```
+  - **Payload**: `Error` object containing error details.
+
+  ```typescript
+  avatarVideoManager.on('onError', error => {
+    console.error('An error occurred:', error.message);
+    // Handle error (e.g., display message to user)
+  });
+  ```
 
 - **`onAgentStart`**: Emitted when the voice agent starts.
 
-```typescript
-avatarVideoManager.on('onAgentStart', () => {
-  console.log('Voice agent has started.');
-  // Additional logic when the agent starts
-});
-```
+  ```typescript
+  avatarVideoManager.on('onAgentStart', () => {
+    console.log('Voice agent has started.');
+    // Additional logic when the agent starts
+  });
+  ```
 
 - **`onAgentEnd`**: Emitted when the voice agent ends.
 
-```typescript
-avatarVideoManager.on('onAgentEnd', () => {
-  console.log('Voice agent has ended.');
-  // Additional logic when the agent ends
-});
-```
+  ```typescript
+  avatarVideoManager.on('onAgentEnd', () => {
+    console.log('Voice agent has ended.');
+    // Additional logic when the agent ends
+  });
+  ```
+
+- **`remoteAudioStreamAvailable`**: Emitted when the remote audio `MediaStream` becomes available.
+
+  - **Payload**: `MediaStream` object representing the remote audio stream.
+
+  ```typescript
+  avatarVideoManager.on('remoteAudioStreamAvailable', (stream: MediaStream) => {
+    // Handle remote audio stream, e.g., play audio
+    const audio = new Audio();
+    audio.srcObject = stream;
+    audio.play();
+  });
+  ```
+
+- **`localAudioStreamAvailable`**: Emitted when the local audio `MediaStream` becomes available.
+
+  - **Payload**: `MediaStream` object representing the local audio stream.
+
+  ```typescript
+  avatarVideoManager.on('localAudioStreamAvailable', (stream: MediaStream) => {
+    // Handle local audio stream, e.g., visualize audio
+    // Implementation here
+  });
+  ```
 
 ## Code Examples
 
 ### React
 
 ```typescript
-
 import React, { useEffect } from "react";
 import { AvatarVideoManager } from '@hamsa-ai/avatars-sdk';
 
@@ -279,6 +341,17 @@ const LiveDemoPage: React.FC = () => {
       },
       onAgentEnd: () => {
         console.log("Agent has ended.");
+      },
+      remoteAudioStreamAvailable: (stream: MediaStream) => {
+        console.log('Remote audio stream is available:', stream);
+        const audio = new Audio();
+        audio.srcObject = stream;
+        audio.play();
+      },
+      localAudioStreamAvailable: (stream: MediaStream) => {
+        console.log('Local audio stream is available:', stream);
+        // Example: Visualize local audio
+        // Implementation here
       },
     };
 
@@ -366,6 +439,17 @@ export default LiveDemoPage;
     onAgentEnd: () => {
       console.log('Agent has ended.');
     },
+    remoteAudioStreamAvailable: (stream: MediaStream) => {
+      console.log('Remote audio stream is available:', stream);
+      const audio = new Audio();
+      audio.srcObject = stream;
+      audio.play();
+    },
+    localAudioStreamAvailable: (stream: MediaStream) => {
+      console.log('Local audio stream is available:', stream);
+      // Example: Visualize local audio
+      // Implementation here
+    },
   };
 
   onMounted(() => {
@@ -448,6 +532,17 @@ export class LiveDemoComponent implements OnInit, OnDestroy {
       },
       onAgentEnd: () => {
         console.log('Agent has ended.');
+      },
+      remoteAudioStreamAvailable: (stream: MediaStream) => {
+        console.log('Remote audio stream is available:', stream);
+        const audio = new Audio();
+        audio.srcObject = stream;
+        audio.play();
+      },
+      localAudioStreamAvailable: (stream: MediaStream) => {
+        console.log('Local audio stream is available:', stream);
+        // Example: Visualize local audio
+        // Implementation here
       },
     };
 
@@ -534,6 +629,17 @@ export class LiveDemoComponent implements OnInit, OnDestroy {
     onAgentEnd: () => {
       console.log('Agent has ended.');
     },
+    remoteAudioStreamAvailable: (stream: MediaStream) => {
+      console.log('Remote audio stream is available:', stream);
+      const audio = new Audio();
+      audio.srcObject = stream;
+      audio.play();
+    },
+    localAudioStreamAvailable: (stream: MediaStream) => {
+      console.log('Local audio stream is available:', stream);
+      // Example: Visualize local audio
+      // Implementation here
+    },
   };
 
   onMount(() => {
@@ -584,7 +690,7 @@ export class LiveDemoComponent implements OnInit, OnDestroy {
 
     <!-- Include the SDK -->
     <script type="module">
-      import {AvatarVideoManager} from '@hamsa-ai/avatars-sdk';
+      import { AvatarVideoManager } from '@hamsa-ai/avatars-sdk';
 
       const options = {
         apiKey: 'your-api-key', // Replace with your actual API key
@@ -620,6 +726,17 @@ export class LiveDemoComponent implements OnInit, OnDestroy {
         },
         onAgentEnd: () => {
           console.log('Agent has ended.');
+        },
+        remoteAudioStreamAvailable: (stream: MediaStream) => {
+          console.log('Remote audio stream is available:', stream);
+          const audio = new Audio();
+          audio.srcObject = stream;
+          audio.play();
+        },
+        localAudioStreamAvailable: (stream: MediaStream) => {
+          console.log('Local audio stream is available:', stream);
+          // Example: Visualize local audio
+          // Implementation here
         },
       };
 
@@ -682,7 +799,6 @@ src/
 - **StateManager**: Keeps track of the current agent status and the current video section being played.
 - **Logger**: Provides a consistent logging mechanism across all modules.
 - **Types**: Contains all the type definitions and interfaces used throughout the SDK.
-
 - **avatarsData.ts**: Stores configurations for different avatars, including video paths and sections.
 
 ## Available Commands
@@ -691,7 +807,7 @@ The project includes several yarn scripts to help with development, testing, and
 
 ### Build and Development
 
-- `yarn build`: Builds the SDK using Rollup. Outputs the bundled files to the dist directory.
+- `yarn build`: Builds the SDK using Rollup. Outputs the bundled files to the `dist` directory.
 - `yarn dev`: Runs Rollup in watch mode. Useful for development.
 - `yarn start`: Alias for `yarn dev`.
 
@@ -718,7 +834,7 @@ The project includes several yarn scripts to help with development, testing, and
 
 ### Cleaning
 
-- `yarn clean`: Removes generated files (coverage reports, dist directory, and documentation).
+- `yarn clean`: Removes generated files (coverage reports, `dist` directory, and documentation).
 
 ### Release and Deployment
 
