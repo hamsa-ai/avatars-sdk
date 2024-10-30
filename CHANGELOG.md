@@ -1,3 +1,9 @@
+### 0.2.0 (2024-10-30)
+
+##### New Features
+
+* **AvatarVideoManager:**  add remote and local audio stream events ([836201af](https://github.com/hamsa-ai/avatars-sdk/commit/836201af2f1b1f1a133f0ac4eda638b8a30e01d9))
+
 #### 0.1.1 (2024-10-13)
 
 ##### Build System / Dependencies
