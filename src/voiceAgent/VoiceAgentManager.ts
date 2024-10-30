@@ -123,6 +123,7 @@ export class VoiceAgentManager {
 
   /**
    * Sets the volume of the voice agent.
+   * @param volume - Volume level between 0.0 and 1.0.
    */
   public setVolume(volume: number): void {
     this.logger.trace('Setting voice agent volume.', {volume});

@@ -65,6 +65,18 @@ interface AvatarVideoManagerEvents {
    * Emitted when the voice agent ends.
    */
   onAgentEnd: () => void;
+
+  /**
+   * Emitted when the remote audio stream is available.
+   * @param stream - The remote MediaStream.
+   */
+  remoteAudioStreamAvailable: (stream: MediaStream) => void;
+
+  /**
+   * Emitted when the local audio stream is available.
+   * @param stream - The local MediaStream.
+   */
+  localAudioStreamAvailable: (stream: MediaStream) => void;
 }
 
 /**
@@ -84,6 +96,13 @@ export declare interface AvatarVideoManager {
    * @param listener - The callback function.
    */
   once<U extends keyof AvatarVideoManagerEvents>(event: U, listener: AvatarVideoManagerEvents[U]): this;
+
+  /**
+   * Removes a specific listener for an event.
+   * @param event - The event name.
+   * @param listener - The callback function to remove.
+   */
+  off<U extends keyof AvatarVideoManagerEvents>(event: U, listener: AvatarVideoManagerEvents[U]): this;
 }
 
 /**
@@ -119,6 +138,30 @@ export class AvatarVideoManager extends EventEmitter {
    * Promise to track ongoing cleanup.
    */
   private cleanupPromise: Promise<void> | null = null;
+
+  /**
+   * Private variables to store media streams.
+   */
+  private remoteAudioStream: MediaStream | null = null;
+  private localAudioStream: MediaStream | null = null;
+
+  /**
+   * Handler for remote audio stream.
+   */
+  private readonly handleRemoteAudioStream = (stream: MediaStream): void => {
+    this.logger.trace('Handling remote audio stream.', {stream});
+    this.remoteAudioStream = stream;
+    this.emit('remoteAudioStreamAvailable', stream);
+  };
+
+  /**
+   * Handler for local audio stream.
+   */
+  private readonly handleLocalAudioStream = (stream: MediaStream): void => {
+    this.logger.trace('Handling local audio stream.', {stream});
+    this.localAudioStream = stream;
+    this.emit('localAudioStreamAvailable', stream);
+  };
 
   /**
    * Private constructor to prevent direct instantiation.
@@ -218,6 +261,12 @@ export class AvatarVideoManager extends EventEmitter {
       }
       if (callbacks.onAgentEnd) {
         this.once('onAgentEnd', callbacks.onAgentEnd);
+      }
+      if (callbacks.remoteAudioStreamAvailable) {
+        this.on('remoteAudioStreamAvailable', callbacks.remoteAudioStreamAvailable);
+      }
+      if (callbacks.localAudioStreamAvailable) {
+        this.on('localAudioStreamAvailable', callbacks.localAudioStreamAvailable);
       }
     }
 
@@ -321,6 +370,9 @@ export class AvatarVideoManager extends EventEmitter {
         this.logger.error('EventManager not initialized.');
       }
 
+      // Subscribe to media stream events
+      this.subscribeToMediaStreams();
+
       // Emit loading change event (loading finished)
       this.emit('onLoadingChange', false);
       this.emit('onAgentStart');
@@ -346,6 +398,24 @@ export class AvatarVideoManager extends EventEmitter {
         await this.endCall();
       }
     }
+  }
+
+  /**
+   * Subscribes to media stream events from VoiceAgentManager.
+   */
+  private subscribeToMediaStreams(): void {
+    this.logger.trace('Subscribing to media stream events from VoiceAgentManager.');
+
+    if (!this.voiceAgentManager) {
+      this.logger.error('VoiceAgentManager is not available.');
+      return;
+    }
+
+    // Listen for remote audio stream
+    this.voiceAgentManager.on('remoteAudioStreamAvailable', this.handleRemoteAudioStream);
+
+    // Listen for local audio stream
+    this.voiceAgentManager.on('localAudioStreamAvailable', this.handleLocalAudioStream);
   }
 
   /**
@@ -387,6 +457,10 @@ export class AvatarVideoManager extends EventEmitter {
 
         this.logger.trace('Ending avatar video manager call.');
 
+        // Unsubscribe from media stream events
+        this.voiceAgentManager.off('remoteAudioStreamAvailable', this.handleRemoteAudioStream);
+        this.voiceAgentManager.off('localAudioStreamAvailable', this.handleLocalAudioStream);
+
         // Clean up EventManager
         if (this.eventManager) {
           this.eventManager.cleanup();
@@ -412,6 +486,10 @@ export class AvatarVideoManager extends EventEmitter {
         this.stateManager = null;
         this.avatarConfig = null;
 
+        // Reset media streams
+        this.remoteAudioStream = null;
+        this.localAudioStream = null;
+
         this.logger.trace('AvatarVideoManager call ended and resources cleaned up.');
         this.emit('onAgentEnd');
       } catch (error) {
@@ -419,7 +497,7 @@ export class AvatarVideoManager extends EventEmitter {
 
         // Check if error is an AbortError
         if (!(error instanceof DOMException && error.name === 'AbortError')) {
-          this.emit('onError', error);
+          this.emit('onError', error as Error);
         } else {
           this.logger.trace('Cleanup aborted. Not emitting onError.');
         }
@@ -434,9 +512,9 @@ export class AvatarVideoManager extends EventEmitter {
   }
 
   /**
-   * Get the job details from the voice agent manager
+   * Retrieves the job details from the voice agent manager.
+   * @returns {Promise<JobDetails>} The job details object.
    */
-
   public async getJobDetails(): Promise<JobDetails> {
     try {
       const jobDetails: JobDetails = await this.voiceAgentManager.getJobDetails();
@@ -491,5 +569,21 @@ export class AvatarVideoManager extends EventEmitter {
    */
   private cleanupListeners(): void {
     this.removeAllListeners();
+  }
+
+  /**
+   * Retrieves the remote audio MediaStream.
+   * @returns The remote MediaStream or null if not available.
+   */
+  public getRemoteAudioStream(): MediaStream | null {
+    return this.remoteAudioStream;
+  }
+
+  /**
+   * Retrieves the local audio MediaStream.
+   * @returns The local MediaStream or null if not available.
+   */
+  public getLocalAudioStream(): MediaStream | null {
+    return this.localAudioStream;
   }
 }
