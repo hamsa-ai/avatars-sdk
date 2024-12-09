@@ -44,7 +44,7 @@ export interface AvatarConfig {
  * Options for initializing the AvatarVideoManager.
  */
 export interface AvatarVideoManagerOptions {
-  apiKey: string;
+  voiceAgentId: string;
   debugEnabled?: boolean;
   logLevel?: log.LogLevelDesc;
 }

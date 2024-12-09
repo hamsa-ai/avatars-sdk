@@ -62,7 +62,7 @@ Create a singleton instance of `AvatarVideoManager` with the required options an
 
 ```typescript
 const avatarVideoManager = AvatarVideoManager.getInstance({
-  apiKey: 'your-api-key', // Your Hamsa API key
+  voiceAgentId: 'your-voice-agent-id', // Your Hamsa Voice Agent ID
   debugEnabled: true, // Enable debug logging
   logLevel: 'trace', // Log level ('trace', 'debug', 'info', 'warn', 'error', 'silent')
 });
@@ -303,10 +303,10 @@ The `AvatarVideoManager` emits several events to help developers respond to diff
 import React, { useEffect } from "react";
 import { AvatarVideoManager } from '@hamsa-ai/avatars-sdk';
 
-const apiKey = process.env.REACT_APP_HAMSA_API_KEY as string;
+const voiceAgentId = process.env.REACT_APP_HAMSA_VOICE_AGENT_ID as string;
 
 const options = {
-  apiKey,
+  voiceAgentId,
   debugEnabled: true,
   logLevel: "trace" as log.LogLevelDesc,
 };
@@ -402,10 +402,10 @@ export default LiveDemoPage;
   import {onMounted, onBeforeUnmount} from 'vue';
   import {AvatarVideoManager} from '@hamsa-ai/avatars-sdk';
 
-  const apiKey = import.meta.env.VITE_APP_HAMSA_API_KEY as string;
+  const voiceAgentId = import.meta.env.VITE_APP_HAMSA_VOICE_AGENT_ID as string;
 
   const options: AvatarVideoManagerOptions = {
-    apiKey,
+    voiceAgentId,
     debugEnabled: true,
     logLevel: 'trace',
   };
@@ -486,7 +486,7 @@ export default LiveDemoPage;
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AvatarVideoManager} from '@hamsa-ai/avatars-sdk';
 
-const apiKey = 'YOUR_API_KEY';
+const voiceAgentId = 'YOUR_VOICE_AGENT_ID'; // Replace with your actual Voice Agent ID
 
 @Component({
   selector: 'app-live-demo',
@@ -497,7 +497,7 @@ export class LiveDemoComponent implements OnInit, OnDestroy {
 
   constructor() {
     const options: AvatarVideoManagerOptions = {
-      apiKey,
+      voiceAgentId,
       debugEnabled: true,
       logLevel: 'trace',
     };
@@ -592,10 +592,10 @@ export class LiveDemoComponent implements OnInit, OnDestroy {
   import {onMount, onDestroy} from 'svelte';
   import {AvatarVideoManager} from '@hamsa-ai/avatars-sdk';
 
-  const apiKey = import.meta.env.VITE_APP_HAMSA_API_KEY as string;
+  const voiceAgentId = import.meta.env.VITE_APP_HAMSA_VOICE_AGENT_ID as string;
 
   const options: AvatarVideoManagerOptions = {
-    apiKey,
+    voiceAgentId,
     debugEnabled: true,
     logLevel: 'trace',
   };
@@ -693,7 +693,7 @@ export class LiveDemoComponent implements OnInit, OnDestroy {
       import { AvatarVideoManager } from '@hamsa-ai/avatars-sdk';
 
       const options = {
-        apiKey: 'your-api-key', // Replace with your actual API key
+        voiceAgentId: 'your-voice-agent-id',
         debugEnabled: true,
         logLevel: 'trace',
       };
@@ -941,4 +941,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Thank you for using the Hamsa Avatars SDK! If you have any questions, please reach out at [support@hamsa.ai](mailto:support@hamsa.ai).
+Thank you for using the Hamsa Avatars SDK! If you have any questions, please reach out at [info@tryhamsa.com](mailto:info@tryhamsa.com).
