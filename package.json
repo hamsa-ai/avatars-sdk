@@ -1,6 +1,6 @@
 {
   "name": "@hamsa-ai/avatars-sdk",
-  "version": "0.2.0",
+  "version": "0.2.1-beta.0",
   "private": false,
   "description": "Hamsa AI - Avatars Javascript SDK",
   "keywords": [
@@ -53,6 +53,7 @@
     "release:major": "generate-changelog -M -x \"chore,test\" && npm run docs && npm run commit && npm version major",
     "release:minor": "generate-changelog -m -x \"chore,test\" && npm run docs && npm run commit && npm version minor",
     "release:patch": "generate-changelog -p -x \"chore,test\" && npm run docs && npm run commit && npm version patch",
+    "release:beta": "generate-changelog -p -x \"chore,test\" && npm run docs && npm run commit && npm version prerelease --preid beta && npm publish --tag beta",
     "release:revert": "npm unpublish avatars-sdk",
     "test": "npm run test:types && npm run test:unit:coverage",
     "test:types": "tsc --noEmit",
