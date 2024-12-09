@@ -64,7 +64,7 @@
     "loglevel": "^1.9.2"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.16.4",
+    "@arethetypeswrong/cli": "^0.17.0",
     "@evilmartians/lefthook": "^1.7.14",
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
@@ -81,7 +81,7 @@
     "rimraf": "^6.0.1",
     "rollup": "^4.24.0",
     "tslib": "^2.7.0",
-    "typedoc": "^0.26.8",
+    "typedoc": "^0.27.2",
     "typescript": "^5.5.4",
     "vitest": "^2.1.1"
   }
