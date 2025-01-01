@@ -68,7 +68,7 @@
     "@arethetypeswrong/cli": "^0.17.0",
     "@evilmartians/lefthook": "^1.7.14",
     "@rollup/plugin-commonjs": "^28.0.0",
-    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-typescript": "^12.1.0",
     "@tstv/eslint-config": "^3.2.2",
     "@tstv/tsconfig-common": "^3.6.0",
