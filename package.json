@@ -61,7 +61,7 @@
     "test:unit:coverage": "npm run test:unit -- --coverage.enabled"
   },
   "dependencies": {
-    "@hamsa-ai/voice-agents-sdk": "^0.2.0-beta.7",
+    "@hamsa-ai/voice-agents-sdk": "^0.2.0-beta.8",
     "loglevel": "^1.9.2"
   },
   "devDependencies": {
