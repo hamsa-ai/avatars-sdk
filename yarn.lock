@@ -554,9 +554,9 @@
     eslint-plugin-sort-keys-fix "1.1.2"
 
 "@tstv/tsconfig-common@^3.6.0":
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/@tstv/tsconfig-common/-/tsconfig-common-3.6.0.tgz#0bd581a73ebfe4d37ffd6923b821c5d2289b4d1a"
-  integrity sha512-SgTJu+xob5ZAq1hZQ/iNumJLVE25Yz7jWoLAsnWH5P0eqjgDHHw8mNFssRHI1yV9US49CJSNeWtIN4pTZz80Hg==
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@tstv/tsconfig-common/-/tsconfig-common-3.7.0.tgz#2bfe93b1f8de56042c69f373cce166b9903f6bf6"
+  integrity sha512-68ipU4prr7dpnq4sdOO9hKhPivekvTKeG4l2lWfPo6mBj0xqu/QFxp9+bIJpmMpBaGzIDjjFBQJAs19KwlO75A==
 
 "@types/estree@*", "@types/estree@1.0.6", "@types/estree@^1.0.0", "@types/estree@^1.0.6":
   version "1.0.6"
