@@ -1,3 +1,9 @@
+#### 0.2.1 (2025-02-11)
+
+##### Bug Fixes
+
+*  update avatar video paths to new S3 location ([30865ad5](https://github.com/hamsa-ai/avatars-sdk/commit/30865ad537fa44bbd445027ec645928a8f6e11ea))
+
 ### 0.2.0 (2024-10-30)
 
 ##### New Features
