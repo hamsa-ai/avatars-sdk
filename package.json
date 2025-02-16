@@ -1,6 +1,6 @@
 {
   "name": "@hamsa-ai/avatars-sdk",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "private": false,
   "description": "Hamsa AI - Avatars Javascript SDK",
   "keywords": [
