@@ -1,3 +1,9 @@
+#### 0.2.3 (2025-02-16)
+
+##### Other Changes
+
+* hamsa-ai/hamsa-avatars-sdk ([7b87fee6](https://github.com/hamsa-ai/avatars-sdk/commit/7b87fee627719b6d8229dc8feff969edbadbab8b))
+
 #### 0.2.2 (2025-01-27)
 
 #### 0.2.2.2 (2024-12-09)
