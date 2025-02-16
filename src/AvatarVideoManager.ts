@@ -173,11 +173,11 @@ export class AvatarVideoManager extends EventEmitter {
 
     // Initialize logger with appropriate log level
     this.logger = new Logger('AvatarVideoManager', options.debugEnabled ? (options.logLevel ?? 'debug') : 'info');
-    this.logger.trace('AvatarVideoManager initialized with voice agent ID and options.');
+    this.logger.trace('AvatarVideoManager initialized with API key and options.');
 
-    // Initialize VoiceAgentManager with voice agent ID and log settings
+    // Initialize VoiceAgentManager with API key and log settings
     this.voiceAgentManager = new VoiceAgentManager(
-      options.voiceAgentId,
+      options.apiKey,
       options.debugEnabled ? (options.logLevel ?? 'debug') : 'info'
     );
 
@@ -222,8 +222,8 @@ export class AvatarVideoManager extends EventEmitter {
    * @throws Will throw an error if validation fails.
    */
   private validateOptions(options: AvatarVideoManagerOptions): void {
-    if (!options.voiceAgentId) {
-      throw new Error('Voice agent ID is required for AvatarVideoManager.');
+    if (!options.apiKey) {
+      throw new Error('API key is required for AvatarVideoManager.');
     }
     // Additional validations can be added here
   }

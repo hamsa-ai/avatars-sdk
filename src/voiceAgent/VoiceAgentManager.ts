@@ -12,7 +12,7 @@ export class VoiceAgentManager {
   private readonly logger: Logger;
 
   constructor(
-    private readonly voiceAgentId: string,
+    private readonly apiKey: string,
     logLevel: LogLevelDesc = 'info'
   ) {
     this.logger = new Logger('VoiceAgentManager', logLevel);
@@ -30,13 +30,13 @@ export class VoiceAgentManager {
       return;
     }
 
-    if (!this.voiceAgentId) {
-      this.logger.error('Voice agent ID is not provided.');
+    if (!this.apiKey) {
+      this.logger.error('API key is not provided.');
       return;
     }
 
     try {
-      this.voiceAgent = new HamsaVoiceAgent(this.voiceAgentId);
+      this.voiceAgent = new HamsaVoiceAgent(this.apiKey);
 
       await this.voiceAgent.start({agentId, params});
       this.agentStarted = true;
