@@ -1,3 +1,9 @@
+#### 0.2.7 (2025-02-18)
+
+##### Refactors
+
+*  Move JobDetails interface to Types and update type handling ([bf1ee827](https://github.com/hamsa-ai/avatars-sdk/commit/bf1ee827b09537a3b7784f6ff4e55f6e2f3b9c15))
+
 #### 0.2.6 (2025-02-16)
 
 ##### Bug Fixes
