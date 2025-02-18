@@ -1,5 +1,5 @@
 import {HamsaVoiceAgent} from '@hamsa-ai/voice-agents-sdk';
-import type {AgentStartCallback, Params} from '../utils/Types';
+import type {AgentStartCallback, JobDetails, Params} from '../utils/Types';
 import Logger from '../utils/Logger';
 import type {LogLevelDesc} from 'loglevel';
 
@@ -136,9 +136,9 @@ export class VoiceAgentManager {
 
   /**
    * Retrieves job details from the Hamsa Voice Agent.
-   * @returns {Promise<Object>} The job details object.
+   * @returns The job details object.
    */
-  public async getJobDetails(): Promise<any> {
+  public async getJobDetails() {
     this.logger.trace('Fetching job details.');
 
     if (!this.voiceAgent) {
@@ -147,7 +147,7 @@ export class VoiceAgentManager {
     }
 
     try {
-      const jobDetails = await this.voiceAgent.getJobDetails();
+      const jobDetails: JobDetails = await this.voiceAgent.getJobDetails();
       this.logger.info('Job details retrieved successfully.', {jobDetails});
       return jobDetails;
     } catch (error: any) {

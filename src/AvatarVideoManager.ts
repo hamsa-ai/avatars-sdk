@@ -8,39 +8,6 @@ import {avatarsSDKData} from './avatarsData';
 import {EventEmitter} from 'events';
 
 /**
- * Interface representing the job details returned by the Hamsa API.
- */
-interface JobDetails {
-  message: string;
-  previewUrl: string;
-  data: {
-    id: string;
-    title: string;
-    model: string;
-    type: string;
-    processingType: string;
-    webhookUrl: string;
-    totalCost: number;
-    usageTime: string;
-    fromLng: string;
-    toLng: string;
-    mediaUrl: string;
-    jobResponse: Record<string, any>;
-    fromScript: string;
-    toScript: string;
-    status: string;
-    relevantJobId: string;
-    agentDetails: string;
-    apiKeyId: string;
-    billingId: string;
-    systemModelKey: string;
-    voiceAgentId: string;
-    createdAt: string;
-    updatedAt: string;
-  };
-}
-
-/**
  * Interface defining the events emitted by AvatarVideoManager.
  */
 interface AvatarVideoManagerEvents {
@@ -513,11 +480,11 @@ export class AvatarVideoManager extends EventEmitter {
 
   /**
    * Retrieves the job details from the voice agent manager.
-   * @returns {Promise<JobDetails>} The job details object.
+   * @returns The job details object.
    */
-  public async getJobDetails(): Promise<JobDetails> {
+  public async getJobDetails() {
     try {
-      const jobDetails: JobDetails = await this.voiceAgentManager.getJobDetails();
+      const jobDetails = await this.voiceAgentManager.getJobDetails();
       this.logger.info('Job details fetched successfully.', {jobDetails});
       return jobDetails;
     } catch (error: any) {

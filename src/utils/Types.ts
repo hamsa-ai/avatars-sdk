@@ -59,3 +59,32 @@ export interface AvatarVideoManagerStartCallOptions {
   params: Params;
   onAgentStart?: AgentStartCallback;
 }
+
+/**
+ * Interface representing the job details returned by the Hamsa API.
+ */
+export interface JobDetails {
+  id: string;
+  title: string;
+  model: string;
+  type: string;
+  processingType: string;
+  webhookUrl: string;
+  totalCost: number;
+  usageTime: string;
+  fromLng: string;
+  toLng: string;
+  mediaUrl: string;
+  jobResponse: Record<string, any>;
+  fromScript: string;
+  toScript: string;
+  status: string;
+  relevantJobId: string;
+  agentDetails: string;
+  apiKeyId: string;
+  billingId: string;
+  systemModelKey: string;
+  voiceAgentId: string;
+  createdAt: string;
+  updatedAt: string;
+}
