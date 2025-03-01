@@ -279,9 +279,9 @@
   integrity sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==
 
 "@evilmartians/lefthook@^1.7.14":
-  version "1.10.10"
-  resolved "https://registry.yarnpkg.com/@evilmartians/lefthook/-/lefthook-1.10.10.tgz#862c80eca5baa664cefb9b970500ea6d7f2d73dc"
-  integrity sha512-MRIA0zJzUBbmcbecI7QjI08li4ffpmZ6DeVydEiZSg0vSx5mElEMEjDEjkI60eSV0XOm7LRbQKz2rfW6NqH8Cw==
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@evilmartians/lefthook/-/lefthook-1.11.2.tgz#64e17a25d352a25074e85c6b4798a6554cd8cf64"
+  integrity sha512-8jTMnouJ+OBJmC7CKtI8Fj6lZ8aLC0W01QMsWkZdfdfZmVZ4x1LLGTRhSDb6o6Ooz/455CzRyMvtKuwARr+EHQ==
 
 "@gerrit0/mini-shiki@^1.24.0":
   version "1.27.2"
