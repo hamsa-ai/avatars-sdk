@@ -318,9 +318,9 @@
     levn "^0.4.1"
 
 "@evilmartians/lefthook@^1.7.14":
-  version "1.11.14"
-  resolved "https://registry.yarnpkg.com/@evilmartians/lefthook/-/lefthook-1.11.14.tgz#34d9544b605b3073b8552eb376ebdf7730d7595f"
-  integrity sha512-vh6lqXVwh7uhI5C/gKB7InW8RyMFYXN27U4Hlum8ZBcDrOviF9fmcBJf4C6ZboWkD3j8v1qp4psc3bwynhPlTQ==
+  version "1.12.3"
+  resolved "https://registry.yarnpkg.com/@evilmartians/lefthook/-/lefthook-1.12.3.tgz#081eca59a6d33646616af844244ce6842cd6b5a5"
+  integrity sha512-MtXIt8h+EVTv5tCGLzh9UwbA/LRv6esdPJOHlxr8NDKHbFnbo8PvU5uVQcm3PAQTd4DZN3HoyokqrwGwntoq6w==
 
 "@gerrit0/mini-shiki@^3.7.0":
   version "3.7.0"
