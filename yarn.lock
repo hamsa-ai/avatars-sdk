@@ -372,9 +372,9 @@
     "@shikijs/vscode-textmate" "^10.0.2"
 
 "@hamsa-ai/voice-agents-sdk@^0.5.0":
-  version "0.5.6"
-  resolved "https://registry.yarnpkg.com/@hamsa-ai/voice-agents-sdk/-/voice-agents-sdk-0.5.6.tgz#fcf177b9f1c2d7e1d81664f95242585e3767f318"
-  integrity sha512-/wVuXiX57d0J7dvbmtv/FbBurejsf0E9dEU+XU4MV53lIdjmdxHun6F20Gj3n6qSFsRfg9Ganizu/clpX71xZg==
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/@hamsa-ai/voice-agents-sdk/-/voice-agents-sdk-0.5.7.tgz#99fb34f5d190dd6e13e765fdcfc07eb84f7b6001"
+  integrity sha512-s8PieBWXBE0Hyfo9lzxQHv90aOZhQAoiVWbgL0/mAch64x9gwvqNcbYSmgSzAXGh8JYu6kWk6qj0L24DtM/TaA==
   dependencies:
     events "^3.3.0"
     jwt-decode "^4.0.0"
