@@ -378,14 +378,14 @@
     "@shikijs/types" "^3.23.0"
     "@shikijs/vscode-textmate" "^10.0.2"
 
-"@hamsa-ai/voice-agents-sdk@^0.5.0":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@hamsa-ai/voice-agents-sdk/-/voice-agents-sdk-0.5.8.tgz#f26e2925a88f53fd334afbede9f965fa76533780"
-  integrity sha512-POdgMiSI8KtdJbBsAOrahun6HDGhW2VKRJRkkjYdkYptit7dA7/Ncw5L4vlbBJO5vgwuLUll7mhAGFu6u9AxiQ==
+"@hamsa-ai/voice-agents-sdk@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@hamsa-ai/voice-agents-sdk/-/voice-agents-sdk-0.6.1.tgz#c780f2a3c31f0146f49e7b22b56c04efa91ea601"
+  integrity sha512-zcna5QCxR0espktnAUhLd/bnZZhvYcE2tpMaFtS93JHg4n2XKQcAcaULC1uIZWvCVGQfmNlJWmKwqMiK5T33Pw==
   dependencies:
     events "^3.3.0"
     jwt-decode "^4.0.0"
-    livekit-client "^2.18.0"
+    livekit-client "2.18.0"
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"
@@ -1866,7 +1866,7 @@ linkify-it@^5.0.0:
   dependencies:
     uc.micro "^2.0.0"
 
-livekit-client@^2.18.0:
+livekit-client@2.18.0:
   version "2.18.0"
   resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-2.18.0.tgz#7c9793ba70a55ebf664146f3a448c05652193365"
   integrity sha512-wjH4y0rw5fnkPmmaxutPhD4XcAq6goQszS8lw9PEpGXVwiRE6sI/ZH+mOT/s8AHJnEC3tjmfiMZ4MQt8BlaWew==
