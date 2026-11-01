@@ -386,13 +386,13 @@
     "@shikijs/vscode-textmate" "^10.0.2"
 
 "@hamsa-ai/voice-agents-sdk@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@hamsa-ai/voice-agents-sdk/-/voice-agents-sdk-0.6.1.tgz#c780f2a3c31f0146f49e7b22b56c04efa91ea601"
-  integrity sha512-zcna5QCxR0espktnAUhLd/bnZZhvYcE2tpMaFtS93JHg4n2XKQcAcaULC1uIZWvCVGQfmNlJWmKwqMiK5T33Pw==
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@hamsa-ai/voice-agents-sdk/-/voice-agents-sdk-0.6.2.tgz#2f2786be49b71f454320659a37e40c3490845135"
+  integrity sha512-PDLPA+VkmNubLyBSLdgZDuArPniQLh2T9jXp664IRVi12m+RDhv8WpdVSrQ9d1EUFgiMoZZWA2R50BKuIHxncA==
   dependencies:
     events "^3.3.0"
     jwt-decode "^4.0.0"
-    livekit-client "2.18.0"
+    livekit-client "2.22.3"
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"
@@ -489,10 +489,10 @@
   resolved "https://registry.yarnpkg.com/@livekit/mutex/-/mutex-1.1.1.tgz#72492b611d55be8130ba2271b7a436d94b1bc6d4"
   integrity sha512-EsshAucklmpuUAfkABPxJNhzj9v2sG7JuzFDL4ML1oJQSV14sqrpTYnsaOudMAw9yOaW53NU3QQTlUQoRs4czw==
 
-"@livekit/protocol@1.44.0":
-  version "1.44.0"
-  resolved "https://registry.yarnpkg.com/@livekit/protocol/-/protocol-1.44.0.tgz#f94a34690dc7dcf1a808f0095f2e480c471747d9"
-  integrity sha512-/vfhDUGcUKO8Q43r6i+5FrDhl5oZjm/X3U4x2Iciqvgn5C8qbj+57YPcWSJ1kyIZm5Cm6AV2nAPjMm3ETD/iyg==
+"@livekit/protocol@1.50.4":
+  version "1.50.4"
+  resolved "https://registry.yarnpkg.com/@livekit/protocol/-/protocol-1.50.4.tgz#31495741dd786924b8ba6e190dd2a6e5d3711c51"
+  integrity sha512-L1uggNQAqyY21smQY8AllyOYbcv9Me9TaxwuLytL1R8ck9nbYPmQLNwEDi3pOFGAMa5F8I2nUi2Jc59W5awxlA==
   dependencies:
     "@bufbuild/protobuf" "^1.10.0"
 
@@ -1914,20 +1914,21 @@ linkify-it@^5.0.2:
   dependencies:
     uc.micro "^2.0.0"
 
-livekit-client@2.18.0:
-  version "2.18.0"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-2.18.0.tgz#7c9793ba70a55ebf664146f3a448c05652193365"
-  integrity sha512-wjH4y0rw5fnkPmmaxutPhD4XcAq6goQszS8lw9PEpGXVwiRE6sI/ZH+mOT/s8AHJnEC3tjmfiMZ4MQt8BlaWew==
+livekit-client@2.22.3:
+  version "2.22.3"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-2.22.3.tgz#1ca257dbe6abb722f1410710f07ac54168eb97bf"
+  integrity sha512-jw9zBKXY5Gtr5MZ7vEON3QhMNccuDvYHck1PFSyG1aaateQPqgKZFBMgZkFZaXHIf9RV4MDW5xpTK2b/+qbwOg==
   dependencies:
     "@livekit/mutex" "1.1.1"
-    "@livekit/protocol" "1.44.0"
+    "@livekit/protocol" "1.50.4"
     events "^3.3.0"
     jose "^6.1.0"
     loglevel "^1.9.2"
+    machina "^7.0.0"
     sdp-transform "^2.15.0"
     tslib "2.8.1"
     typed-emitter "^2.1.0"
-    webrtc-adapter "^9.0.1"
+    webrtc-adapter "9.0.6"
 
 locate-path@^6.0.0:
   version "6.0.0"
@@ -1960,6 +1961,11 @@ lunr@^2.3.9:
   version "2.3.9"
   resolved "https://registry.yarnpkg.com/lunr/-/lunr-2.3.9.tgz#18b123142832337dd6e964df1a5a7707b25d35e1"
   integrity sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==
+
+machina@^7.0.0:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/machina/-/machina-7.0.1.tgz#859ad49203a5e194ed6bd1f6ef102c308bf6b839"
+  integrity sha512-0Xkgs8NeBvO2hW6bjJT8ewLWrMfh1haMPstaghpASWjXkLjRhtDiaJG1Kb7mslaOHxZYxpH7PIjpmirRVYbMMA==
 
 magic-string@^0.30.17, magic-string@^0.30.3:
   version "0.30.17"
@@ -2694,10 +2700,10 @@ webidl-conversions@^8.0.1:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-8.0.1.tgz#0657e571fe6f06fcb15ca50ed1fdbcb495cd1686"
   integrity sha512-BMhLD/Sw+GbJC21C/UgyaZX41nPt8bUTg+jWyDeg7e7YN4xOM05YPSIXceACnXVtqyEw/LMClUQMtMZ+PGGpqQ==
 
-webrtc-adapter@^9.0.1:
-  version "9.0.3"
-  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-9.0.3.tgz#b446ed7cd72129d00c652dd7b9a5716d9ffdd87d"
-  integrity sha512-5fALBcroIl31OeXAdd1YUntxiZl1eHlZZWzNg3U4Fn+J9/cGL3eT80YlrsWGvj2ojuz1rZr2OXkgCzIxAZ7vRQ==
+webrtc-adapter@9.0.6:
+  version "9.0.6"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-9.0.6.tgz#d89ce0d7b6b8b49f07bdbd1273074006744905a6"
+  integrity sha512-CHbl2ZQbxx164IgWRgzJno4hWtM4tFbRam1QfI3Yxhs3w/DvqluVxVWeXs3oL5/fbGkSNLKo0Ty5MgUWceNhog==
   dependencies:
     sdp "^3.2.0"
 
